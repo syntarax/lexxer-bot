@@ -1,6 +1,5 @@
 import { createAudioPlayer, createAudioResource, joinVoiceChannel, AudioPlayerStatus } from '@discordjs/voice';
 import play from 'play-dl';
-import ytSearch from 'yt-search';
 
 export default {
     name: 'play',
@@ -31,15 +30,22 @@ export default {
                 };
             } else {
                 message.channel.send(`🔍 **${query}** aranıyor...`);
-                const searchResult = await ytSearch(query);
-                if (!searchResult || !searchResult.videos.length) {
+
+                // play-dl ile ara
+                const searchResults = await play.search(query, {
+                    source: { youtube: "video" },
+                    limit: 1
+                });
+
+                if (!searchResults || searchResults.length === 0) {
                     return message.channel.send('❌ Sonuç bulunamadı.');
                 }
-                const video = searchResult.videos[0];
+
+                const video = searchResults[0];
                 song = {
                     title: video.title,
                     url: video.url,
-                    duration: video.timestamp
+                    duration: formatDuration(video.durationInSec)
                 };
             }
 
