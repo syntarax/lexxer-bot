@@ -1,119 +1,58 @@
-import {
-    joinVoiceChannel,
-    createAudioPlayer,
-    createAudioResource,
-    NoSubscriberBehavior,
-    AudioPlayerStatus,
-    VoiceConnectionStatus
-} from '@discordjs/voice';
-import ytdl from '@distube/ytdl-core';
-import fs from 'fs';
-
-// Global player map
-const players = new Map();
+import { QueryType } from 'discord-player';
 
 export default {
     name: 'play',
-    description: 'YouTube (ytdl-core motoru)',
+    description: 'Müzik çalar (Discord-Player)',
     async execute(message, args, client) {
+        // Ses kanalına katılma kontrolü
         const voiceChannel = message.member.voice.channel;
-        if (!voiceChannel) return message.reply('❌ Ses kanalına katılmalısın!');
-        if (!args.length) return message.reply('❌ Şarkı adı gir.');
+        if (!voiceChannel) return message.reply('❌ Bir ses kanalına girin!');
+        if (!args.length) return message.reply('❌ Şarkı adı veya link girin.');
 
         const query = args.join(' ');
-        const infoMessage = await message.channel.send(`🔍 YTDL ile aranıyor: **${query}**`);
+
+        // Kuyruk oluştur veya al
+        const queue = client.player.nodes.create(message.guild, {
+            metadata: {
+                channel: message.channel
+            },
+            volume: 80,
+            leaveOnEmpty: true,
+            leaveOnEmptyCooldown: 300000,
+            leaveOnEnd: true,
+            leaveOnEndCooldown: 300000,
+        });
 
         try {
-            // Cookie kontrolü (Varsa Agent oluştur)
-            let agentOptions = {};
-            if (fs.existsSync('./cookies.txt')) {
-                try {
-                    // ytdl-core agent için cookies okuma
-                    const cookieStr = fs.readFileSync('./cookies.txt', 'utf-8');
-                    const cookies = [];
-                    // Basit parse
-                    cookieStr.split('\n').forEach(line => {
-                        const parts = line.split('\t');
-                        if (parts.length >= 7) {
-                            cookies.push({ name: parts[5], value: parts[6].trim() });
-                        }
-                    });
-                    if (cookies.length > 0) {
-                        agentOptions = { cookies };
-                        console.log("✅ Cookies YTDL'e yüklendi.");
-                    }
-                } catch (e) { console.error("Cookie hatası:", e); }
-            }
+            if (!queue.connection) await queue.connect(voiceChannel);
+        } catch {
+            queue.delete();
+            return message.reply('❌ Kanala katılamadım!');
+        }
 
-            const agent = ytdl.createAgent(agentOptions.cookies);
+        const infoMessage = await message.channel.send(`🔍 Aranıyor: **${query}**`);
 
-            // 1. YouTube Info Al
-            let url = query;
-            if (!query.startsWith('http')) {
-                // Basit arama (ytdl-core arama yapmaz, bu yüzden play-dl'i tamamen kaldırdıysak search kütüphanesi lazım)
-                // Ama user kütüphane değiştirmeyi sevmiyor. 
-                // YTDL tek başına search yapmaz. 
-                // Mecburen ytsr kullanmalıyız veya basit bir search fonksiyonu.
-                // Şimdilik "play-dl search" logic'ini "ytdl-core getInfo" ile değiştiremeyiz.
-                // AMA @distube/ytdl-core search yapmaz.
-                // Bu yüzden kullanıcıya "Link girin" demek zorunda kalabiliriz veya ytsr eklemeliyiz.
-                // HIZLI ÇÖZÜM: npm install ytsr
-                // Şimdilik sadece URL desteği verelim, yoksa kod uzar.
-                // VEYA: play-dl'i search için tut, stream için ytdl kullan.
-                // KULLANICI "Sadece youtube olacak" dedi.
-                // play-dl search çalışıyor.
-                // O zaman play-dl'i silemem. Search için kalsın.
-
-                // NOT: Bu dosya kaydedilmeden önce hemen package.json düzelteyim.
-                // Aşağıda logic değişecek.
-                await infoMessage.edit("❌ Şimdilik sadece YouTube Linki çalışır (Motor değiştiği için). Lütfen link atın.");
-                return;
-            }
-
-            // 2. Stream
-            console.log("Stream başlatılıyor:", url);
-
-            const stream = ytdl(url, {
-                filter: 'audioonly',
-                highWaterMark: 1 << 25, // Yüksek buffer
-                agent: agent
+        try {
+            // Arama ve Çalma
+            const result = await client.player.search(query, {
+                requestedBy: message.author,
+                searchEngine: QueryType.AUTO
             });
 
-            const connection = joinVoiceChannel({
-                channelId: voiceChannel.id,
-                guildId: voiceChannel.guild.id,
-                adapterCreator: voiceChannel.guild.voiceAdapterCreator,
-            });
-
-            let player = players.get(message.guild.id);
-            if (!player) {
-                player = createAudioPlayer({
-                    behaviors: { noSubscriber: NoSubscriberBehavior.Play }
-                });
-                players.set(message.guild.id, player);
-
-                player.on('error', error => {
-                    console.error('Player Error:', error);
-                    infoMessage.edit(`❌ Oynatma hatası: ${error.message}`);
-                });
+            if (!result || !result.tracks.length) {
+                return infoMessage.edit('❌ Sonuç bulunamadı.');
             }
 
-            connection.subscribe(player);
-            const resource = createAudioResource(stream);
-            player.play(resource);
+            const track = result.tracks[0];
+            queue.addTrack(track);
 
-            const info = await ytdl.getBasicInfo(url, { agent });
-            infoMessage.edit(`🎵 Çalıyor: **${info.videoDetails.title}**`);
+            if (!queue.isPlaying()) await queue.node.play();
 
-        } catch (error) {
-            console.error("YTDL Error:", error);
-            if (error.statusCode === 429) {
-                infoMessage.edit(`❌ YouTube engeli (429). Cookie yenilemeniz şart.`);
-            } else if (error.message.includes("Sign in")) {
-                infoMessage.edit(`❌ YouTube "Giriş Yap" hatası. Cookie dosyası gerekli.`);
-            } else {
-                infoMessage.edit(`❌ Hata: ${error.message}`);
-            }
+            infoMessage.edit(`✅ Kuyruğa eklendi: **${track.title}**`);
+
+        } catch (e) {
+            console.error(e);
+            return infoMessage.edit(`❌ Hata: ${e.message}`);
         }
     },
 };

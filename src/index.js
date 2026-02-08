@@ -1,67 +1,75 @@
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
-import dotenv from 'dotenv';
+import { Player } from 'discord-player';
 import fs from 'fs';
-import path from 'path';
-import { fileURLToPath, pathToFileURL } from 'url';
+import 'dotenv/config';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-dotenv.config();
-
+// Client Setup
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildVoiceStates,
-    ],
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
 });
 
-client.commands = new Collection();
-
-// Load commands
-const commandsPath = path.join(__dirname, 'commands');
-if (fs.existsSync(commandsPath)) {
-    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-
-    for (const file of commandFiles) {
-        const filePath = path.join(commandsPath, file);
-        import(pathToFileURL(filePath).href).then(module => {
-            const command = module.default;
-            if (command.name) {
-                client.commands.set(command.name, command);
-                console.log(`✅ Komut yüklendi: ${command.name}`);
-            }
-        });
+// Player Setup (Global)
+client.player = new Player(client, {
+    ytdlOptions: {
+        quality: "highestaudio",
+        highWaterMark: 1 << 25
     }
+});
+
+// Extractors (YouTube, Spotify, etc.)
+await client.player.extractors.loadDefault();
+
+client.commands = new Collection();
+const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+    const command = await import(`./commands/${file}`);
+    client.commands.set(command.default.name, command.default);
 }
 
-client.once('clientReady', () => {
-    console.log(`✅ ${client.user.tag} hazır! (Basit Mod)`);
+const prefix = process.env.PREFIX || '!';
+
+client.once('ready', () => {
+    console.log(`✅ Bot Hazır: ${client.user.tag}`);
+    console.log(`🎵 Player Hazır: Extractors yüklendi.`);
 });
 
 client.on('messageCreate', async message => {
-    if (!message.content.startsWith('!') || message.author.bot) return;
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-    const args = message.content.slice(1).trim().split(/ +/);
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
-    const command = client.commands.get(commandName);
-
-    if (!command) return;
+    if (!client.commands.has(commandName)) return;
 
     try {
-        await command.execute(message, args, client);
+        await client.commands.get(commandName).execute(message, args, client);
     } catch (error) {
         console.error(error);
-        message.reply('❌ Bir hata oluştu!');
+        message.reply('❌ Komut hatası!');
     }
 });
 
-// Hata yakalama
-process.on('unhandledRejection', error => {
-    console.error('Unhandled promise rejection:', error);
+// Player Eventleri (Hata yakalama)
+client.player.events.on('playerStart', (queue, track) => {
+    queue.metadata.channel.send(`🎶 Çalıyor: **${track.title}**`);
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.player.events.on('error', (queue, error) => {
+    console.log(`[Player Error] ${error.message}`);
+    queue.metadata.channel.send(`⚠️ Çalma Hatası: ${error.message}`);
+});
+
+client.player.events.on('playerError', (queue, error) => {
+    console.log(`[Connection Error] ${error.message}`);
+    queue.metadata.channel.send(`⚠️ Bağlantı Hatası: ${error.message}`);
+});
+
+// VDS Token (Hardcoded veya Env)
+const TOKEN = process.env.DISCORD_TOKEN;
+client.login(TOKEN);
