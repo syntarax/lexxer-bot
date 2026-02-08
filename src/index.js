@@ -21,7 +21,12 @@ const client = new Client({
 });
 
 // discord-player setup
-client.player = new Player(client);
+client.player = new Player(client, {
+    leaveOnEmpty: false,
+    leaveOnEmptyCooldown: 0,
+    leaveOnEnd: false,
+    leaveOnEndCooldown: 0
+});
 
 // Load default extractors
 await client.player.extractors.loadMulti(DefaultExtractors);
