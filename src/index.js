@@ -3,6 +3,10 @@ import { Player } from 'discord-player';
 import fs from 'fs';
 import 'dotenv/config';
 
+// Force load encryption libraries before Discord voice connection
+import sodium from 'libsodium-wrappers';
+await sodium.ready;
+
 // Client Setup
 const client = new Client({
     intents: [
