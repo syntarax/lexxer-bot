@@ -12,10 +12,11 @@ import play from 'play-dl';
 // Global player map
 const players = new Map();
 
-// Cookie ve Token Ayarları
+// Cookie Ayarları
 if (process.env.YOUTUBE_COOKIES) {
     try {
         let cookies = process.env.YOUTUBE_COOKIES.trim();
+        // JSON -> String
         if (cookies.startsWith('[') || cookies.startsWith('{')) {
             try {
                 const cookieArray = JSON.parse(cookies);
@@ -23,146 +24,122 @@ if (process.env.YOUTUBE_COOKIES) {
                     cookies = cookieArray.map(c => `${c.name}=${c.value}`).join('; ');
                 }
             } catch (e) {
-                console.warn('⚠️ Cookie JSON parse uyarısı.');
+                console.warn('⚠️ Cookie JSON parse hatası.');
             }
         } else if (cookies.includes('.youtube.com') || cookies.includes('\t')) {
+            // Netscape parser
             try {
                 const lines = cookies.split('\n');
                 const parsedCookies = [];
                 for (const line of lines) {
-                    if (line.startsWith('#') || !line.trim()) continue;
                     const parts = line.split('\t');
                     if (parts.length >= 7) {
-                        const name = parts[5];
-                        const value = parts[6].trim();
-                        parsedCookies.push(`${name}=${value}`);
+                        parsedCookies.push(`${parts[5]}=${parts[6].trim()}`);
                     }
                 }
-                if (parsedCookies.length > 0) {
-                    cookies = parsedCookies.join('; ');
-                }
-            } catch (e) {
-                console.warn('⚠️ Netscape cookie parse hatası:', e);
-            }
+                if (parsedCookies.length > 0) cookies = parsedCookies.join('; ');
+            } catch (e) { }
         }
 
+        // Token set (User-Agent kaldırıldı, default bırakılıyor)
         play.setToken({
-            youtube: { cookie: cookies },
-            useragent: ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"]
+            youtube: { cookie: cookies }
         });
         console.log(`✅ YouTube token yapılandırıldı.`);
     } catch (error) {
-        console.error('❌ Token configuration error:', error);
+        console.error('❌ Token err:', error);
     }
 }
 
+// SoundCloud yetkilendirmesi (Gerekirse Client ID)
+play.getFreeClientID().then((clientID) => {
+    play.setToken({
+        soundcloud: {
+            client_id: clientID
+        }
+    })
+});
+
+
 export default {
     name: 'play',
-    description: 'Müzik çalar (Debug Mod)',
+    description: 'Müzik çalar (Smart Fallback)',
     async execute(message, args, client) {
         const voiceChannel = message.member.voice.channel;
         if (!voiceChannel) {
             return message.reply('❌ Ses kanalına katılmalısın!');
         }
-
-        if (!args.length) {
-            return message.reply('❌ Şarkı adı veya linki girmelisin!');
-        }
+        if (!args.length) return message.reply('❌ Şarkı adı gir.');
 
         const query = args.join(' ');
-        const infoMessage = await message.channel.send(`🔍 İşleniyor: **${query}**`);
+        const infoMessage = await message.channel.send(`🔍 Aranıyor: **${query}**`);
 
         try {
-            let url = query;
+            await this.playYouTube(message, voiceChannel, query, infoMessage);
+        } catch (ytError) {
+            console.error("YouTube Error:", ytError);
 
-            // 1. TİP BELİRLEME ve URL ÇÖZÜMLEME
-            const validation = play.yt_validate(query);
-
-            if (validation === 'search' || !query.startsWith('http')) {
-                const searchResults = await play.search(query, {
-                    limit: 1,
-                    source: { youtube: "video" }
-                });
-                if (!searchResults || searchResults.length === 0) {
-                    return infoMessage.edit('❌ Sonuç bulunamadı!');
+            if (ytError.message.includes("Sign in") || ytError.message.includes("429")) {
+                await infoMessage.edit(`⚠️ YouTube erişimi kısıtlandı. **SoundCloud** üzerinden aranıyor...`);
+                try {
+                    await this.playSoundCloud(message, voiceChannel, query, infoMessage);
+                } catch (scError) {
+                    await infoMessage.edit(`❌ İki kaynaktan da sonuç alınamadı.`);
                 }
-                url = searchResults[0].url;
-                await infoMessage.edit(`🔍 Bulundu: **${searchResults[0].title}**`);
-            } else if (validation === 'video') {
-                url = query;
-            } else if (validation === 'playlist') {
-                const playlist = await play.playlist_info(query, { incomplete: true });
-                const videos = await playlist.all_videos();
-                if (videos.length > 0) url = videos[0].url;
-            }
-
-            if (!url) throw new Error("URL çözülemedi.");
-
-            console.log(`Resolving stream for: ${url}`);
-
-            // 2. VIDEO INFO AL (Stream öncesi kontrol)
-            // Bu adım fail ederse cookie veya video erişimi sorunu vardır.
-            const yt_info = await play.video_info(url);
-
-            // 3. STREAM AL (Info üzerinden)
-            const stream = await play.stream_from_info(yt_info, {
-                quality: 2
-            });
-
-            // 4. BAĞLANTIO
-            const connection = joinVoiceChannel({
-                channelId: voiceChannel.id,
-                guildId: voiceChannel.guild.id,
-                adapterCreator: voiceChannel.guild.voiceAdapterCreator,
-            });
-
-            let player = players.get(message.guild.id);
-            if (!player) {
-                player = createAudioPlayer({
-                    behaviors: {
-                        noSubscriber: NoSubscriberBehavior.Play
-                    }
-                });
-                players.set(message.guild.id, player);
-
-                connection.on(VoiceConnectionStatus.Disconnected, () => {
-                    players.delete(message.guild.id);
-                });
-
-                player.on('error', error => {
-                    console.error('Player hatası:', error);
-                });
-            }
-
-            connection.subscribe(player);
-
-            const resource = createAudioResource(stream.stream, {
-                inputType: stream.type
-            });
-
-            player.play(resource);
-
-            if (!infoMessage.editable) {
-                message.channel.send(`🎵 Çalıyor: **${yt_info.video_details.title}**`);
             } else {
-                infoMessage.edit(`🎵 Çalıyor: **${yt_info.video_details.title}** \n🔗 ${url}`);
-            }
-
-        } catch (error) {
-            console.error(error);
-            let userMsg = `❌ Hata: ${error.message}`;
-
-            if (error.message.includes("Sign in")) {
-                userMsg = `❌ **Yetkilendirme Hatası:** Cookie geçersiz veya YouTube IP'yi engelliyor.`;
-            } else if (error.message.includes("Invalid URL")) {
-                userMsg = `❌ **URL Hatası:** Video bilgisi alınamadı.`;
-            }
-
-            if (infoMessage.editable) {
-                infoMessage.edit(userMsg);
-            } else {
-                message.channel.send(userMsg);
+                await infoMessage.edit(`❌ Hata: ${ytError.message}`);
             }
         }
     },
+
+    async playYouTube(message, voiceChannel, query, infoMessage) {
+        let url = query;
+        const validation = play.yt_validate(query);
+
+        if (validation === 'search' || !query.startsWith('http')) {
+            const results = await play.search(query, { limit: 1, source: { youtube: "video" } });
+            if (!results.length) throw new Error("Sonuç yok");
+            url = results[0].url;
+        }
+
+        // Info al (Auth check)
+        const yt_info = await play.video_info(url);
+        // Stream al
+        const stream = await play.stream_from_info(yt_info, { quality: 2 });
+
+        this.startStream(message, voiceChannel, stream, yt_info.video_details.title, url, infoMessage, "YouTube");
+    },
+
+    async playSoundCloud(message, voiceChannel, query, infoMessage) {
+        const results = await play.search(query, { limit: 1, source: { soundcloud: "tracks" } });
+        if (!results.length) throw new Error("SC Sonuç yok");
+
+        const url = results[0].url;
+        const stream = await play.stream(url);
+
+        this.startStream(message, voiceChannel, stream, results[0].name, url, infoMessage, "SoundCloud");
+    },
+
+    startStream(message, voiceChannel, stream, title, url, infoMessage, source) {
+        const connection = joinVoiceChannel({
+            channelId: voiceChannel.id,
+            guildId: voiceChannel.guild.id,
+            adapterCreator: voiceChannel.guild.voiceAdapterCreator,
+        });
+
+        let player = players.get(message.guild.id);
+        if (!player) {
+            player = createAudioPlayer({
+                behaviors: { noSubscriber: NoSubscriberBehavior.Play }
+            });
+            players.set(message.guild.id, player);
+            connection.on(VoiceConnectionStatus.Disconnected, () => players.delete(message.guild.id));
+        }
+
+        connection.subscribe(player);
+        const resource = createAudioResource(stream.stream, { inputType: stream.type });
+        player.play(resource);
+
+        infoMessage.edit(`🎵 Çalıyor (${source}): **${title}** \n🔗 ${url}`);
+    }
 };
