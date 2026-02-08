@@ -27,7 +27,6 @@ if (process.env.YOUTUBE_COOKIES) {
                 console.warn('⚠️ Cookie JSON parse hatası.');
             }
         } else if (cookies.includes('.youtube.com') || cookies.includes('\t')) {
-            // Netscape parser
             try {
                 const lines = cookies.split('\n');
                 const parsedCookies = [];
@@ -41,7 +40,6 @@ if (process.env.YOUTUBE_COOKIES) {
             } catch (e) { }
         }
 
-        // Token set (User-Agent kaldırıldı, default bırakılıyor)
         play.setToken({
             youtube: { cookie: cookies }
         });
@@ -51,24 +49,18 @@ if (process.env.YOUTUBE_COOKIES) {
     }
 }
 
-// SoundCloud yetkilendirmesi (Gerekirse Client ID)
 play.getFreeClientID().then((clientID) => {
     play.setToken({
-        soundcloud: {
-            client_id: clientID
-        }
+        soundcloud: { client_id: clientID }
     })
 });
 
-
 export default {
     name: 'play',
-    description: 'Müzik çalar (Smart Fallback)',
+    description: 'Müzik çalar (Garantili Mod)',
     async execute(message, args, client) {
         const voiceChannel = message.member.voice.channel;
-        if (!voiceChannel) {
-            return message.reply('❌ Ses kanalına katılmalısın!');
-        }
+        if (!voiceChannel) return message.reply('❌ Ses kanalına katılmalısın!');
         if (!args.length) return message.reply('❌ Şarkı adı gir.');
 
         const query = args.join(' ');
@@ -79,15 +71,14 @@ export default {
         } catch (ytError) {
             console.error("YouTube Error:", ytError);
 
-            if (ytError.message.includes("Sign in") || ytError.message.includes("429")) {
-                await infoMessage.edit(`⚠️ YouTube erişimi kısıtlandı. **SoundCloud** üzerinden aranıyor...`);
-                try {
-                    await this.playSoundCloud(message, voiceChannel, query, infoMessage);
-                } catch (scError) {
-                    await infoMessage.edit(`❌ İki kaynaktan da sonuç alınamadı.`);
-                }
-            } else {
-                await infoMessage.edit(`❌ Hata: ${ytError.message}`);
+            // HER TÜRLÜ HATADA SOUNDCLOUD DENENİR (Invalid URL, Sign In, 429 vs.)
+            await infoMessage.edit(`⚠️ YouTube kaynağında sorun var (${ytError.message}). **SoundCloud** üzerinden deneniyor...`);
+
+            try {
+                await this.playSoundCloud(message, voiceChannel, query, infoMessage);
+            } catch (scError) {
+                console.error("SC Error:", scError);
+                await infoMessage.edit(`❌ Maalesef bu şarkı iki kaynakta da bulunamadı veya oynatılamıyor.`);
             }
         }
     },
@@ -102,9 +93,7 @@ export default {
             url = results[0].url;
         }
 
-        // Info al (Auth check)
         const yt_info = await play.video_info(url);
-        // Stream al
         const stream = await play.stream_from_info(yt_info, { quality: 2 });
 
         this.startStream(message, voiceChannel, stream, yt_info.video_details.title, url, infoMessage, "YouTube");
