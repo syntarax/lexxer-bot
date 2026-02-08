@@ -16,6 +16,8 @@ const players = new Map();
 if (process.env.YOUTUBE_COOKIES) {
     try {
         let cookies = process.env.YOUTUBE_COOKIES.trim();
+
+        // JSON -> String çevrimi
         if (cookies.startsWith('[') || cookies.startsWith('{')) {
             try {
                 const cookieArray = JSON.parse(cookies);
@@ -23,9 +25,15 @@ if (process.env.YOUTUBE_COOKIES) {
                     cookies = cookieArray.map(c => `${c.name}=${c.value}`).join('; ');
                 }
             } catch (e) {
-                console.warn('⚠️ Cookie JSON parse uyarısı:', e);
+                console.warn('⚠️ Cookie JSON parse uyarısı, olduğu gibi deneniyor.');
             }
         }
+
+        // Cookie basit doğrulama
+        if (!cookies.includes('SAPISID') && !cookies.includes('__Secure-3PAPISID')) {
+            console.warn('⚠️ UYARI: Cookie içinde kritik "SAPISID" bulunamadı. YouTube girişi başarısız olabilir.');
+        }
+
         play.setToken({
             youtube: { cookie: cookies },
             useragent: ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"]
@@ -38,7 +46,7 @@ if (process.env.YOUTUBE_COOKIES) {
 
 export default {
     name: 'play',
-    description: 'Müzik çalar (Stabil)',
+    description: 'Müzik çalar (Gelişmiş Mod)',
     async execute(message, args, client) {
         const voiceChannel = message.member.voice.channel;
         if (!voiceChannel) {
@@ -50,14 +58,35 @@ export default {
         }
 
         const query = args.join(' ');
-        const infoMessage = await message.channel.send(`🔍 Aranıyor: **${query}**`);
+        const infoMessage = await message.channel.send(`🔍 İşleniyor: **${query}**`);
 
         try {
             let url = query;
-            let title = "Bilinmiyor";
+            let title = "Müzik";
 
-            // 1. Arama Yap (Eğer link değilse)
-            if (!query.startsWith('http')) {
+            // TİP BELİRLEME
+            const validation = play.yt_validate(query);
+
+            if (validation === 'video') {
+                // Video linki
+                url = query;
+            } else if (validation === 'playlist') {
+                // Playlist ise ilk şarkıyı al
+                try {
+                    const playlist = await play.playlist_info(query, { incomplete: true });
+                    const videos = await playlist.all_videos();
+                    if (videos.length > 0) {
+                        url = videos[0].url;
+                        title = videos[0].title;
+                        await infoMessage.edit(`📂 Playlist algılandı: **${playlist.title}**\n▶️ İlk video çalınıyor: **${title}**`);
+                    } else {
+                        return infoMessage.edit('❌ Boş playlist.');
+                    }
+                } catch (e) {
+                    return infoMessage.edit('❌ Playlist bilgisi alınamadı.');
+                }
+            } else if (validation === 'search' || !query.startsWith('http')) {
+                // Arama
                 const searchResults = await play.search(query, {
                     limit: 1,
                     source: { youtube: "video" }
@@ -69,21 +98,16 @@ export default {
                 url = searchResults[0].url;
                 title = searchResults[0].title;
             } else {
-                // Link doğrulama
-                if (play.yt_validate(query) !== 'video') {
-                    return infoMessage.edit('❌ Geçersiz YouTube linki.');
-                }
+                return infoMessage.edit(`❌ Desteklenmeyen link formatı: ${validation || 'Bilinmiyor'}`);
             }
 
-            console.log(`Streaming URL: ${url}`);
-
-            // 2. Stream Al
-            // discordPlayerCompatibility: false (Çünkü @discordjs/voice kullanıyoruz)
+            // STREAM ALMA
+            // play-dl'e direkt stream isteği gönderiyoruz. Bu noktada URL kesinlikle bir video URL'si olmalı.
             const stream = await play.stream(url, {
-                quality: 2
+                quality: 2 // High
             });
 
-            // 3. Bağlantı
+            // SES BAĞLANTISI
             const connection = joinVoiceChannel({
                 channelId: voiceChannel.id,
                 guildId: voiceChannel.guild.id,
@@ -104,7 +128,8 @@ export default {
                 });
 
                 player.on('error', error => {
-                    console.error('Player hatası:', error.message);
+                    console.error('Player hatası:', error);
+                    // Kullanıcıya hata spamlamamak için sadece logluyoruz veya özel mesaj atabiliriz.
                 });
             }
 
@@ -116,16 +141,26 @@ export default {
 
             player.play(resource);
 
-            infoMessage.edit(`🎵 Çalıyor: **${title}** \n🔗 ${url}`);
+            if (!infoMessage.editable) {
+                message.channel.send(`🎵 Çalıyor: **${title || url}**`);
+            } else {
+                infoMessage.edit(`🎵 Çalıyor: **${title || url}**`);
+            }
 
         } catch (error) {
             console.error(error);
+            let userMsg = `❌ Hata: ${error.message}`;
+
             if (error.message.includes("Sign in")) {
-                infoMessage.edit(`❌ **Hata:** YouTube bot koruması (Cookies geçersiz).`);
-            } else if (error.message.includes("Invalid URL")) {
-                infoMessage.edit(`❌ **Hata:** Video kaynağı çözülemedi (URL geçersiz veya kısıtlı).`);
+                userMsg = `❌ **Hata:** YouTube bot koruması. Cookie geçersiz/süresi dolmuş olabilir.`;
+            } else if (error.message.includes("Invalid URL") || error.message.includes("not a YouTube Watch URL")) {
+                userMsg = `❌ **Hata:** Videoya erişilemedi (URL çözülemedi).`;
+            }
+
+            if (infoMessage.editable) {
+                infoMessage.edit(userMsg);
             } else {
-                infoMessage.edit(`❌ Hata: ${error.message}`);
+                message.channel.send(userMsg);
             }
         }
     },
