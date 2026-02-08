@@ -1,22 +1,20 @@
 {
   "name": "discord-music-bot",
   "version": "1.0.0",
-  "description": "Discord müzik botu",
+  "description": "Simple music bot",
   "main": "src/index.js",
   "type": "module",
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "discord.js": "^14.14.1",
     "@discordjs/voice": "^0.16.1",
-    "discord-api-types": "^0.38.38",
-    "discord.js": "^14.25.1",
-    "dotenv": "^16.4.5",
-    "ffmpeg-static": "^5.2.0",
+    "@distube/ytdl-core": "^4.13.2",
     "libsodium-wrappers": "^0.7.13",
-    "play-dl": "^1.9.7"
+    "sodium-native": "^4.1.1",
+    "ffmpeg-static": "^5.2.0",
+    "dotenv": "^16.4.1"
   }
 }
