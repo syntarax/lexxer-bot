@@ -46,6 +46,7 @@ for (const file of commandFiles) {
 
 // Player events
 client.player.events.on('playerStart', (queue, track) => {
+    console.log(`[Player] Started playing: ${track.title}`);
     queue.metadata.channel.send(`🎵 Çalıyor: **${track.title}** - \`${track.duration}\``);
 });
 
@@ -54,12 +55,28 @@ client.player.events.on('audioTrackAdd', (queue, track) => {
 });
 
 client.player.events.on('disconnect', queue => {
+    console.log('[Player] Disconnected from voice channel');
     queue.metadata.channel.send('👋 Ses kanalından ayrıldım!');
 });
 
+client.player.events.on('emptyChannel', queue => {
+    console.log('[Player] Empty channel - leaving');
+    queue.metadata.channel.send('📭 Kanal boş, ayrılıyorum!');
+});
+
+client.player.events.on('emptyQueue', queue => {
+    console.log('[Player] Queue is empty');
+    queue.metadata.channel.send('📜 Sıra bitti!');
+});
+
 client.player.events.on('error', (queue, error) => {
-    console.error('Player Error:', error);
-    queue.metadata.channel.send(`❌ Hata: ${error.message}`);
+    console.error('[Player] Error:', error);
+    queue.metadata.channel.send(`❌ Player hatası: ${error.message}`);
+});
+
+client.player.events.on('playerError', (queue, error) => {
+    console.error('[Player] Playback error:', error);
+    queue.metadata.channel.send(`❌ Çalma hatası: ${error.message}`);
 });
 
 // Bot events
