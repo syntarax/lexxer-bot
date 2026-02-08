@@ -1,12 +1,19 @@
 export default {
     name: 'skip',
-    description: 'Çalan şarkıyı geçer',
-    execute(message, args, client) {
-        const serverQueue = client.queue.get(message.guild.id);
-        if (!message.member.voice.channel) return message.reply('❌ Önce ses kanalına katılmalısın!');
-        if (!serverQueue) return message.reply('❌ Şu an çalan bir şarkı yok!');
+    description: 'Çalan şarkıyı atlar',
+    async execute(message) {
+        const queue = message.client.distube.getQueue(message);
 
-        message.channel.send('⏭️ Şarkı geçiliyor...');
-        serverQueue.player.stop();
+        if (!queue) {
+            return message.reply('❌ Şu anda çalan bir şarkı yok!');
+        }
+
+        try {
+            await queue.skip();
+            message.channel.send('⏭️ Şarkı atlandı!');
+        } catch (error) {
+            console.error('Skip Error:', error);
+            message.channel.send('❌ Şarkı atlanamadı!');
+        }
     },
 };
