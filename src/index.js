@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
 import { Player } from 'discord-player';
+import { DefaultExtractors } from '@discord-player/extractor';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
@@ -23,7 +24,7 @@ const client = new Client({
 client.player = new Player(client);
 
 // Load default extractors
-await client.player.extractors.loadDefault();
+await client.player.extractors.loadMulti(DefaultExtractors);
 
 // Commands collection
 client.commands = new Collection();
