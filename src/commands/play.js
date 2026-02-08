@@ -12,36 +12,38 @@ import play from 'play-dl';
 // Global player map
 const players = new Map();
 
-// Cookie setup
+// Cookie ve Token Ayarları
 if (process.env.YOUTUBE_COOKIES) {
     try {
-        // Çerez formatını kontrol et (JSON array string olmalı)
-        // play-dl setToken expects an object with specific keys or a specific format depending on version
-        // Usually: play.setToken({ youtube : { cookie : "cookie_string" } })
+        let cookies = process.env.YOUTUBE_COOKIES.trim();
 
-        // EditThisCookie usually exports an array of objects. play-dl might need conversion or raw cookie string usually.
-        // Let's assume user pasted the JSON array from EditThisCookie.
-        // However, play-dl documentation often says it needs "cookie string" or specific format.
-        // But let's try to set it.
+        // JSON kontrolü
+        if (cookies.startsWith('[') || cookies.startsWith('{')) {
+            try {
+                const cookieArray = JSON.parse(cookies);
+                if (Array.isArray(cookieArray)) {
+                    cookies = cookieArray.map(c => `${c.name}=${c.value}`).join('; ');
+                }
+            } catch (e) {
+                console.warn('⚠️ Cookie JSON parse uyarısı:', e);
+            }
+        }
 
-        // Safe approach: Try to parse if JSON, if not use as string.
-        let cookies = process.env.YOUTUBE_COOKIES;
-
-        // Basit token set
         play.setToken({
             youtube: {
                 cookie: cookies
-            }
+            },
+            useragent: ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"]
         });
-        console.log('✅ YouTube cookies loaded.');
+        console.log(`✅ YouTube token yapılandırıldı. (Uzunluk: ${cookies.length})`);
     } catch (error) {
-        console.error('❌ Cookie loading error:', error);
+        console.error('❌ Token configuration error:', error);
     }
 }
 
 export default {
     name: 'play',
-    description: 'Müzik çalar (YouTube Premium Mod)',
+    description: 'Müzik çalar (Direct Stream)',
     async execute(message, args, client) {
         const voiceChannel = message.member.voice.channel;
         if (!voiceChannel) {
@@ -53,44 +55,21 @@ export default {
         }
 
         const query = args.join(' ');
-
-        // Mesaj gönder
-        const infoMessage = await message.channel.send(`🔍 Aranıyor: **${query}**`);
+        const infoMessage = await message.channel.send(`🔍 İşleniyor: **${query}**`);
 
         try {
-            // Arama veya Link Çözümleme
-            let yt_info;
-            if (query.startsWith('https')) {
-                if (play.yt_validate(query) === 'video') {
-                    yt_info = await play.video_info(query);
-                } else {
-                    return message.reply('❌ Şu an sadece YouTube video linkleri destekleniyor.');
-                }
-            } else {
-                const searchResults = await play.search(query, {
-                    limit: 1,
-                    source: { youtube: "video" }
-                });
+            // Direkt stream almayı dene (play-dl arka planda çözer)
+            const stream = await play.stream(query, {
+                quality: 2,
+                discordPlayerCompatibility: true
+            });
 
-                if (!searchResults || searchResults.length === 0) {
-                    return message.reply('❌ Sonuç bulunamadı!');
-                }
-                yt_info = await play.video_info(searchResults[0].url);
-            }
-
-            const video = yt_info.video_details;
-
-            // Stream al (YouTube authentication ile)
-            const stream = await play.stream(video.url);
-
-            // Ses kanalına bağlan
             const connection = joinVoiceChannel({
                 channelId: voiceChannel.id,
                 guildId: voiceChannel.guild.id,
                 adapterCreator: voiceChannel.guild.voiceAdapterCreator,
             });
 
-            // Player oluştur veya al
             let player = players.get(message.guild.id);
             if (!player) {
                 player = createAudioPlayer({
@@ -118,13 +97,15 @@ export default {
 
             player.play(resource);
 
-            infoMessage.edit(`🎵 Çalıyor: **${video.title}** \n🔗 ${video.url}`);
+            // Başlık bilgisini almak için ekstra işlem gerekebilir ama stream başladıysa sorun yok
+            infoMessage.edit(`🎵 Çalıyor!`);
 
         } catch (error) {
             console.error(error);
-
             if (error.message.includes("Sign in")) {
-                message.reply(`❌ **Hata:** YouTube bot korumasına takıldık. Lütfen cookie'lerin güncel olduğundan emin olun.`);
+                message.reply(`❌ **Hata:** YouTube cookie sorunu. Lütfen cookie'lerinizi kontrol edin.`);
+            } else if (error.message.includes("Invalid URL")) {
+                message.reply(`❌ **Hata:** Video formatı çözülemedi. Cookie hatası veya video kısıtlaması olabilir.`);
             } else {
                 message.reply(`❌ Hata: ${error.message}`);
             }
