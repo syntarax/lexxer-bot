@@ -16,29 +16,23 @@ export default {
         const query = args.join(' ');
 
         try {
+            // Basit search
             const searchResult = await client.player.search(query, {
-                requestedBy: message.author,
-                searchEngine: QueryType.AUTO
+                requestedBy: message.author
             });
 
             if (!searchResult || !searchResult.tracks.length) {
                 return message.reply('❌ Sonuç bulunamadı!');
             }
 
-            // Basit play fonksiyonu
+            // Play
             await client.player.play(voiceChannel, searchResult, {
                 nodeOptions: {
                     metadata: {
                         channel: message.channel
-                    },
-                    leaveOnEmpty: false,
-                    leaveOnEnd: false,
-                    selfDeaf: false
+                    }
                 }
             });
-
-            // İlk şarkı ekleniyorsa mesaj atmasına gerek yok, playerStart event'i halleder.
-            // Sadece sıraya eklenenleri belirtebiliriz ama basitlik için şimdilik kaldırıyorum.
 
         } catch (error) {
             console.error(error);
