@@ -1,4 +1,4 @@
 providers = ["node", "python"]
 
-[phases.start]
+[start]
 cmd = "npm start"
