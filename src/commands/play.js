@@ -7,15 +7,14 @@ import {
     AudioPlayerStatus,
     VoiceConnectionStatus
 } from '@discordjs/voice';
-import ytdl from '@distube/ytdl-core';
-import ytsr from 'ytsr';
+import play from 'play-dl';
 
-// Global player map (basitlik için memory'de tutuyoruz)
+// Global player map
 const players = new Map();
 
 export default {
     name: 'play',
-    description: 'Müzik çalar (Basit Mod)',
+    description: 'Müzik çalar (Play-DL Mod)',
     async execute(message, args, client) {
         const voiceChannel = message.member.voice.channel;
         if (!voiceChannel) {
@@ -27,26 +26,36 @@ export default {
         }
 
         const query = args.join(' ');
-        let url = query;
 
-        // Arama yap
-        if (!ytdl.validateURL(query)) {
-            message.channel.send(`🔍 Aranıyor: **${query}**`);
-            try {
-                const searchResults = await ytsr(query, { limit: 1 });
-                if (searchResults && searchResults.items.length > 0) {
-                    url = searchResults.items[0].url;
-                    message.channel.send(`🎵 Bulundu: **${searchResults.items[0].name}**`);
-                } else {
-                    return message.reply('❌ Sonuç bulunamadı!');
-                }
-            } catch (error) {
-                console.error('Arama hatası:', error);
-                return message.reply('❌ Arama sırasında hata oluştu.');
-            }
-        }
+        // Mesaj gönder
+        const infoMessage = await message.channel.send(`🔍 Aranıyor: **${query}**`);
 
         try {
+            // Arama veya Link Çözümleme
+            let yt_info;
+            if (query.startsWith('https')) {
+                if (play.yt_validate(query) === 'video') {
+                    yt_info = await play.video_info(query);
+                } else {
+                    return message.reply('❌ Şu an sadece YouTube video linkleri destekleniyor.');
+                }
+            } else {
+                const searchResults = await play.search(query, {
+                    limit: 1,
+                    source: { youtube: "video" }
+                });
+
+                if (!searchResults || searchResults.length === 0) {
+                    return message.reply('❌ Sonuç bulunamadı!');
+                }
+                yt_info = await play.video_info(searchResults[0].url);
+            }
+
+            const video = yt_info.video_details;
+
+            // Stream al
+            const stream = await play.stream(video.url);
+
             // Ses kanalına bağlan
             const connection = joinVoiceChannel({
                 channelId: voiceChannel.id,
@@ -54,7 +63,7 @@ export default {
                 adapterCreator: voiceChannel.guild.voiceAdapterCreator,
             });
 
-            // Player oluştur veya mevcut olanı al
+            // Player oluştur veya al
             let player = players.get(message.guild.id);
             if (!player) {
                 player = createAudioPlayer({
@@ -64,9 +73,7 @@ export default {
                 });
                 players.set(message.guild.id, player);
 
-                // Bağlantı ve player hata yönetimi
                 connection.on(VoiceConnectionStatus.Disconnected, () => {
-                    console.log('Bağlantı kesildi.');
                     players.delete(message.guild.id);
                 });
 
@@ -76,23 +83,15 @@ export default {
                 });
             }
 
-            // Bağlantıyı player'a abone yap
             connection.subscribe(player);
 
-            // Stream oluştur
-            const stream = ytdl(url, {
-                filter: 'audioonly',
-                quality: 'highestaudio',
-                highWaterMark: 1 << 25
-            });
-
-            const resource = createAudioResource(stream, {
-                inputType: StreamType.Arbitrary
+            const resource = createAudioResource(stream.stream, {
+                inputType: stream.type
             });
 
             player.play(resource);
-            console.log(`Playing: ${url}`);
-            message.channel.send('▶️ Çalıyor!');
+
+            infoMessage.edit(`🎵 Çalıyor: **${video.title}** \n🔗 ${video.url}`);
 
         } catch (error) {
             console.error(error);
