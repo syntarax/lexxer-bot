@@ -1,6 +1,7 @@
 import { DisTube } from 'distube';
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
 import { YtDlpPlugin } from '@distube/yt-dlp';
+import { YouTubePlugin } from '@distube/youtube';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
@@ -23,7 +24,10 @@ const client = new Client({
 // DisTube setup
 client.distube = new DisTube(client, {
     emitNewSongOnly: true,
-    plugins: [new YtDlpPlugin()]
+    plugins: [
+        new YouTubePlugin(),
+        new YtDlpPlugin()
+    ]
 });
 
 // Commands collection
