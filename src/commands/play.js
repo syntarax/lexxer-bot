@@ -6,8 +6,10 @@ import path from 'path';
 
 const YTDlpWrap = YTDlpWrapPkg.default;
 
-// Binary yolu
-const binaryPath = path.resolve('./yt-dlp.exe');
+// Binary yolu - İşletim sistemine göre ayarla
+const isWindows = process.platform === 'win32';
+const binaryName = isWindows ? 'yt-dlp.exe' : 'yt-dlp';
+const binaryPath = path.resolve(`./${binaryName}`);
 const ytDlpWrap = new YTDlpWrap();
 
 export default {
@@ -28,16 +30,32 @@ export default {
         const serverQueue = client.queue.get(guildId);
 
         try {
-            // Binary kontrolü (her komut çağrısında kontrol etmek yerine, bot başlatıldığında bir kez yapılabilir)
-            // Ancak bu örnekte, komut çağrıldığında kontrol ediliyor.
+            // Binary kontrolü
             if (!fs.existsSync(binaryPath)) {
-                console.log('yt-dlp binary bulunamadı, indiriliyor...');
+                console.log(`${binaryName} bulunamadı, indiriliyor...`);
                 message.channel.send('⚙️ Gerekli araçlar indiriliyor, lütfen bekleyin...');
                 await YTDlpWrap.downloadFromGithub(binaryPath);
-                console.log('yt-dlp indirildi!');
+
+                // Linux/Unix'te çalıştırma izni ver
+                if (!isWindows) {
+                    fs.chmodSync(binaryPath, 0o755);
+                    console.log('Yürütme izni verildi.');
+                }
+
+                console.log(`${binaryName} indirildi!`);
                 ytDlpWrap.setBinaryPath(binaryPath);
             } else {
                 ytDlpWrap.setBinaryPath(binaryPath);
+
+                // Mevcut dosyada izin kontrolü (Linux için)
+                if (!isWindows) {
+                    try {
+                        fs.accessSync(binaryPath, fs.constants.X_OK);
+                    } catch (e) {
+                        fs.chmodSync(binaryPath, 0o755);
+                        console.log('Yürütme izni eksikti, verildi.');
+                    }
+                }
             }
 
             // Şarkı bilgisi bul
