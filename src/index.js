@@ -1,5 +1,5 @@
-import { DisTube } from 'distube';
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
+import { Player } from 'discord-player';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
@@ -19,10 +19,11 @@ const client = new Client({
     ],
 });
 
-// DisTube setup - minimal config
-client.distube = new DisTube(client, {
-    emitNewSongOnly: true
-});
+// discord-player setup
+client.player = new Player(client);
+
+// Load default extractors
+await client.player.extractors.loadDefault();
 
 // Commands collection
 client.commands = new Collection();
@@ -42,28 +43,23 @@ for (const file of commandFiles) {
     });
 }
 
-// DisTube events
-client.distube
-    .on('playSong', (queue, song) => {
-        queue.textChannel.send(`🎵 Çalıyor: **${song.name}** - \`${song.formattedDuration}\`
-Talep eden: ${song.user}`);
-    })
-    .on('addSong', (queue, song) => {
-        queue.textChannel.send(`✅ Sıraya eklendi: **${song.name}** - \`${song.formattedDuration}\``);
-    })
-    .on('addList', (queue, playlist) => {
-        queue.textChannel.send(`✅ Playlist eklendi: **${playlist.name}** (${playlist.songs.length} şarkı)`);
-    })
-    .on('error', (channel, error) => {
-        console.error('DisTube Error:', error);
-        if (channel) channel.send(`❌ Hata: ${error.message}`);
-    })
-    .on('finish', queue => {
-        queue.textChannel.send('✅ Müzik sırası bitti.');
-    })
-    .on('disconnect', queue => {
-        queue.textChannel.send('👋 Ses kanalından ayrıldım!');
-    });
+// Player events
+client.player.events.on('playerStart', (queue, track) => {
+    queue.metadata.channel.send(`🎵 Çalıyor: **${track.title}** - \`${track.duration}\``);
+});
+
+client.player.events.on('audioTrackAdd', (queue, track) => {
+    queue.metadata.channel.send(`✅ Sıraya eklendi: **${track.title}**`);
+});
+
+client.player.events.on('disconnect', queue => {
+    queue.metadata.channel.send('👋 Ses kanalından ayrıldım!');
+});
+
+client.player.events.on('error', (queue, error) => {
+    console.error('Player Error:', error);
+    queue.metadata.channel.send(`❌ Hata: ${error.message}`);
+});
 
 // Bot events
 client.once('clientReady', () => {

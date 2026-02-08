@@ -1,19 +1,14 @@
 export default {
     name: 'stop',
     description: 'Müziği durdurur ve kanaldan ayrılır',
-    async execute(message) {
-        const queue = message.client.distube.getQueue(message);
+    async execute(message, args, client) {
+        const queue = client.player.queues.get(message.guild.id);
 
-        if (!queue) {
+        if (!queue || !queue.isPlaying()) {
             return message.reply('❌ Şu anda çalan bir şarkı yok!');
         }
 
-        try {
-            await queue.stop();
-            message.channel.send('⏹️ Müzik durduruldu!');
-        } catch (error) {
-            console.error('Stop Error:', error);
-            message.channel.send('❌ Müzik durdurulamadı!');
-        }
+        queue.delete();
+        message.channel.send('⏹️ Müzik durduruldu!');
     },
 };

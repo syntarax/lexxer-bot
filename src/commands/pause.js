@@ -1,23 +1,18 @@
 export default {
     name: 'pause',
     description: 'Müziği duraklatır',
-    async execute(message) {
-        const queue = message.client.distube.getQueue(message);
+    async execute(message, args, client) {
+        const queue = client.player.queues.get(message.guild.id);
 
-        if (!queue) {
+        if (!queue || !queue.isPlaying()) {
             return message.reply('❌ Şu anda çalan bir şarkı yok!');
         }
 
-        if (queue.paused) {
+        if (queue.node.isPaused()) {
             return message.reply('⏸️ Müzik zaten duraklatılmış!');
         }
 
-        try {
-            queue.pause();
-            message.channel.send('⏸️ Müzik duraklatıldı!');
-        } catch (error) {
-            console.error('Pause Error:', error);
-            message.channel.send('❌ Müzik duraklatılamadı!');
-        }
+        queue.node.pause();
+        message.channel.send('⏸️ Müzik duraklatıldı!');
     },
 };

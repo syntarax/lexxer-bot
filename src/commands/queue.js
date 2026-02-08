@@ -1,16 +1,16 @@
 export default {
     name: 'queue',
     description: 'Müzik sırasını gösterir',
-    async execute(message) {
-        const queue = message.client.distube.getQueue(message);
+    async execute(message, args, client) {
+        const queue = client.player.queues.get(message.guild.id);
 
-        if (!queue) {
+        if (!queue || !queue.isPlaying()) {
             return message.reply('❌ Şu anda çalan bir şarkı yok!');
         }
 
-        const currentSong = queue.songs[0];
-        const queueList = queue.songs.slice(1, 11).map((song, index) =>
-            `${index + 1}. **${song.name}** - \`${song.formattedDuration}\``
+        const currentTrack = queue.currentTrack;
+        const tracks = queue.tracks.data.slice(0, 10).map((track, index) =>
+            `${index + 1}. **${track.title}** - \`${track.duration}\``
         ).join('\n');
 
         const embed = {
@@ -19,18 +19,15 @@ export default {
             fields: [
                 {
                     name: '▶️ Şu Anda Çalıyor',
-                    value: `**${currentSong.name}**\n\`${currentSong.formattedDuration}\` | Talep eden: ${currentSong.user}`,
+                    value: `**${currentTrack.title}**\n\`${currentTrack.duration}\` | Talep eden: ${currentTrack.requestedBy}`,
                 },
             ],
-            footer: {
-                text: `Toplam ${queue.songs.length} şarkı | Toplam süre: ${queue.formattedDuration}`,
-            },
         };
 
-        if (queueList) {
+        if (tracks) {
             embed.fields.push({
                 name: '📜 Sıradaki Şarkılar',
-                value: queueList || 'Sırada şarkı yok',
+                value: tracks || 'Sırada şarkı yok',
             });
         }
 
