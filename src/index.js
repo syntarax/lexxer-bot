@@ -1,6 +1,5 @@
 import { DisTube } from 'distube';
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
-import { YtDlpPlugin } from '@distube/yt-dlp';
 import { YouTubePlugin } from '@distube/youtube';
 import dotenv from 'dotenv';
 import fs from 'fs';
@@ -24,10 +23,7 @@ const client = new Client({
 // DisTube setup
 client.distube = new DisTube(client, {
     emitNewSongOnly: true,
-    plugins: [
-        new YouTubePlugin(),
-        new YtDlpPlugin()
-    ]
+    plugins: [new YouTubePlugin()]
 });
 
 // Commands collection
@@ -69,7 +65,7 @@ Talep eden: ${song.user}`);
     });
 
 // Bot events
-client.once('ready', () => {
+client.once('clientReady', () => {
     console.log(`✅ ${client.user.tag} aktif!`);
     console.log(`📊 ${client.guilds.cache.size} sunucuda aktif`);
 });
