@@ -1,6 +1,6 @@
 {
   "name": "discord-music-bot",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Advanced music bot with discord-player",
   "main": "src/index.js",
   "type": "module",
@@ -15,8 +15,8 @@
     "@distube/ytdl-core": "^4.13.2",
     "@discordjs/voice": "^0.16.1",
     "libsodium-wrappers": "^0.7.13",
-    "sodium-native": "^4.1.1",
     "sodium": "^3.0.2",
+    "tweetnacl": "^1.0.3",
     "opusscript": "^1.5.1",
     "ffmpeg-static": "^5.2.0",
     "dotenv": "^16.4.1"
