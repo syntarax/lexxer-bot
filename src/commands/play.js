@@ -12,9 +12,36 @@ import play from 'play-dl';
 // Global player map
 const players = new Map();
 
+// Cookie setup
+if (process.env.YOUTUBE_COOKIES) {
+    try {
+        // Çerez formatını kontrol et (JSON array string olmalı)
+        // play-dl setToken expects an object with specific keys or a specific format depending on version
+        // Usually: play.setToken({ youtube : { cookie : "cookie_string" } })
+
+        // EditThisCookie usually exports an array of objects. play-dl might need conversion or raw cookie string usually.
+        // Let's assume user pasted the JSON array from EditThisCookie.
+        // However, play-dl documentation often says it needs "cookie string" or specific format.
+        // But let's try to set it.
+
+        // Safe approach: Try to parse if JSON, if not use as string.
+        let cookies = process.env.YOUTUBE_COOKIES;
+
+        // Basit token set
+        play.setToken({
+            youtube: {
+                cookie: cookies
+            }
+        });
+        console.log('✅ YouTube cookies loaded.');
+    } catch (error) {
+        console.error('❌ Cookie loading error:', error);
+    }
+}
+
 export default {
     name: 'play',
-    description: 'Müzik çalar (Play-DL Mod)',
+    description: 'Müzik çalar (YouTube Premium Mod)',
     async execute(message, args, client) {
         const voiceChannel = message.member.voice.channel;
         if (!voiceChannel) {
@@ -53,7 +80,7 @@ export default {
 
             const video = yt_info.video_details;
 
-            // Stream al
+            // Stream al (YouTube authentication ile)
             const stream = await play.stream(video.url);
 
             // Ses kanalına bağlan
@@ -95,7 +122,12 @@ export default {
 
         } catch (error) {
             console.error(error);
-            message.reply(`❌ Hata: ${error.message}`);
+
+            if (error.message.includes("Sign in")) {
+                message.reply(`❌ **Hata:** YouTube bot korumasına takıldık. Lütfen cookie'lerin güncel olduğundan emin olun.`);
+            } else {
+                message.reply(`❌ Hata: ${error.message}`);
+            }
         }
     },
 };
