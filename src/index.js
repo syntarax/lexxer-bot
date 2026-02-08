@@ -19,15 +19,9 @@ const client = new Client({
     ],
 });
 
-// DisTube setup - minimal config, let it use defaults
+// DisTube setup - minimal config
 client.distube = new DisTube(client, {
-    emitNewSongOnly: true,
-    searchSongs: 1,
-    searchCooldown: 30,
-    emptyCooldown: 0,
-    leaveOnEmpty: false,
-    leaveOnFinish: false,
-    leaveOnStop: false
+    emitNewSongOnly: true
 });
 
 // Commands collection
