@@ -187,11 +187,12 @@ async function playSong(guild, song, client) {
     try {
         console.log(`Hazırlanıyor: ${song.title}`);
 
-        // Stream URL al
+        // Stream URL al - Android player client kullan (bot detection bypass)
         const streamUrlOutput = await ytDlpWrap.execPromise([
             song.url,
             '-f', 'ba',
-            '-g'
+            '-g',
+            '--extractor-args', 'youtube:player_client=android'
         ]);
         const streamUrl = streamUrlOutput.trim();
 
