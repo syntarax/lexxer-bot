@@ -1,6 +1,5 @@
 import { DisTube } from 'distube';
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
-import { YouTubePlugin } from '@distube/youtube';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
@@ -20,10 +19,15 @@ const client = new Client({
     ],
 });
 
-// DisTube setup
+// DisTube setup - minimal config, let it use defaults
 client.distube = new DisTube(client, {
     emitNewSongOnly: true,
-    plugins: [new YouTubePlugin()]
+    searchSongs: 1,
+    searchCooldown: 30,
+    emptyCooldown: 0,
+    leaveOnEmpty: false,
+    leaveOnFinish: false,
+    leaveOnStop: false
 });
 
 // Commands collection
@@ -62,6 +66,9 @@ Talep eden: ${song.user}`);
     })
     .on('finish', queue => {
         queue.textChannel.send('✅ Müzik sırası bitti.');
+    })
+    .on('disconnect', queue => {
+        queue.textChannel.send('👋 Ses kanalından ayrıldım!');
     });
 
 // Bot events
