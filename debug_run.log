@@ -1,0 +1,252 @@
+﻿
+> discord-music-bot@1.0.0 start
+> node src/index.js
+
+Ô£à Komut y├╝klendi: yard─▒m
+Ô£à Komut y├╝klendi: play
+Ô£à Komut y├╝klendi: pause
+Ô£à Komut y├╝klendi: queue
+Ô£à Komut y├╝klendi: stop
+Ô£à Komut y├╝klendi: skip
+Ô£à Komut y├╝klendi: resume
+Ô£à Lexxer#8298 aktif!
+­şôè 1 sunucuda aktif
+[Player Debug] GuildQueue initialized for guild Lexxer (ID: 709779417274253313)
+[Player Debug] Connecting to voice channel d├╝zg├╝n kanal (ID: 1467331618137178194)
+[Player Debug] Received play request from guild Lexxer (ID: 709779417274253313)
+[Player Debug] Requested option requires to play the track, initializing...
+[Player Debug] Initiating stream extraction process...
+[Player Debug] Executing onBeforeCreateStream hook (QueryType: soundcloudTrack)...
+[Player Debug] Failed to get stream from onBeforeCreateStream!
+[Player Debug] Attempting to extract stream for Track { title: Ala Djalek Nahreg R4, url: https://soundcloud.com/mounirahamoudi/ala-djalek-nahreg-r4 } using registered extractors
+[Player Debug] Stream extraction was successful for Track { title: Ala Djalek Nahreg R4, url: https://soundcloud.com/mounirahamoudi/ala-djalek-nahreg-r4 } (Extractor: com.discord-player.soundcloudextractor)
+[Player Debug] Waiting for willPlayTrack event to resolve...
+[Player Debug] Preparing final stream config: {
+  "dispatcherConfig": {
+    "disableBiquad": false,
+    "disableEqualizer": false,
+    "disableVolume": false,
+    "disableFilters": false,
+    "disableResampler": true,
+    "sampleRate": 48000,
+    "eq": [],
+    "defaultFilters": [],
+    "volume": 100,
+    "data": {
+      "id": "1470080119572795393",
+      "title": "Ala Djalek Nahreg R4",
+      "description": "Ala Djalek Nahreg R4 by Dawi Ya",
+      "author": "Dawi Ya",
+      "url": "https://soundcloud.com/mounirahamoudi/ala-djalek-nahreg-r4",
+      "thumbnail": "",
+      "duration": "03:31",
+      "durationMS": 211000,
+      "views": 343,
+      "requestedBy": "383925783451926539",
+      "playlist": null
+    },
+    "type": "raw",
+    "skipFFmpeg": true
+  },
+  "playerConfig": {
+    "queue": false,
+    "transitionMode": false,
+    "seek": 0
+  }
+}
+[Player Debug] Initiating DSP filters pipeline...
+[Player Debug] Executing onAfterCreateStream hook...
+[Player Debug] Preparing AudioResource...
+[Player Debug] Initializing audio player...
+node.exe : [Player] Er
+ror: AbortError: The o
+peration was aborted
+At C:\Program Files\no
+dejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_C
+LI_JS $args
++   ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpecifi
+ed: ([Pl    ayer] Erro
+r:...ion was     abort
+ed:String) [], R    em
+oteException
+    + FullyQualifiedEr
+rorI    d : NativeComm
+andError
+ 
+    at AbortSignal.abo
+rtListener (node:event
+s:1005:14)
+    at [nodejs.interna
+l.kHybridDispatch] (no
+de:internal/event_targ
+et:827:20)
+    at AbortSignal.dis
+patchEvent (node:inter
+nal/event_target:762:2
+6)
+    at runAbort (node:
+internal/abort_control
+ler:486:10)
+    at abortSignal (no
+de:internal/abort_cont
+roller:457:3)
+    at AbortController
+.abort (node:internal/
+abort_controller:505:5
+)
+    at Timeout.<anonym
+ous> (C:\Users\kasap\.
+gemini\antigravity\scr
+atch\discord-music-bot
+\node_modules\discord-
+voip\dist\index.js:219
+8:39)
+    at listOnTimeout (
+node:internal/timers:5
+88:17)
+    at process.process
+Timers (node:internal/
+timers:523:7) {
+  code: 'ABORT_ERR',
+  [cause]: DOMExceptio
+n [AbortError]: This o
+peration was aborted
+      at new DOMExcept
+ion (node:internal/per
+_context/domexception:
+53:5)
+      at AbortControll
+er.abort (node:interna
+l/abort_controller:504
+:18)
+      at Timeout.<anon
+ymous> (C:\Users\kasap
+\.gemini\antigravity\s
+cratch\discord-music-b
+ot\node_modules\discor
+d-voip\dist\index.js:2
+198:39)
+      at listOnTimeout
+ (node:internal/timers
+:588:17)
+      at process.proce
+ssTimers (node:interna
+l/timers:523:7)
+}
+[Player Debug] Dispatching audio...
+[Player] Disconnected from voice channel
+[Player Debug] GuildQueue initialized for guild Lexxer (ID: 709779417274253313)
+[Player Debug] Connecting to voice channel d├╝zg├╝n kanal (ID: 1467331618137178194)
+[Player Debug] Received play request from guild Lexxer (ID: 709779417274253313)
+[Player Debug] Requested option requires to play the track, initializing...
+[Player Debug] Initiating stream extraction process...
+[Player Debug] Executing onBeforeCreateStream hook (QueryType: soundcloudTrack)...
+[Player Debug] Failed to get stream from onBeforeCreateStream!
+[Player Debug] Attempting to extract stream for Track { title: Manifest - RU╠êYA (winx collaboration)Ô£¿, url: https://soundcloud.com/bakugou-katsuki-374275216/manifest-ru-ya-winx } using registered extractors
+[Player Debug] Stream extraction was successful for Track { title: Manifest - RU╠êYA (winx collaboration)Ô£¿, url: https://soundcloud.com/bakugou-katsuki-374275216/manifest-ru-ya-winx } (Extractor: com.discord-player.soundcloudextractor)
+[Player Debug] Waiting for willPlayTrack event to resolve...
+[Player Debug] Preparing final stream config: {
+  "dispatcherConfig": {
+    "disableBiquad": false,
+    "disableEqualizer": false,
+    "disableVolume": false,
+    "disableFilters": false,
+    "disableResampler": true,
+    "sampleRate": 48000,
+    "eq": [],
+    "defaultFilters": [],
+    "volume": 100,
+    "data": {
+      "id": "1470080579809579020",
+      "title": "Manifest - RU╠êYA (winx collaboration)Ô£¿",
+      "description": "Manifest - RU╠êYA (winx collaboration)Ô£¿ by Sayuri",
+      "author": "Sayuri",
+      "url": "https://soundcloud.com/bakugou-katsuki-374275216/manifest-ru-ya-winx",
+      "thumbnail": "https://i1.sndcdn.com/artworks-8cPqTCCxgApcni6j-rc5vsg-large.jpg",
+      "duration": "03:49",
+      "durationMS": 229000,
+      "views": 21951,
+      "requestedBy": "383925783451926539",
+      "playlist": null
+    },
+    "type": "raw",
+    "skipFFmpeg": true
+  },
+  "playerConfig": {
+    "queue": false,
+    "transitionMode": false,
+    "seek": 0
+  }
+}
+[Player Debug] Initiating DSP filters pipeline...
+[Player Debug] Executing onAfterCreateStream hook...
+[Player Debug] Preparing AudioResource...
+[Player Debug] Initializing audio player...
+[Player] Disconnected from voice channel
+Play error: AbortError
+: The operation was ab
+orted
+    at AbortSignal.abo
+rtListener (node:event
+s:1005:14)
+    at [nodejs.interna
+l.kHybridDispatch] (no
+de:internal/event_targ
+et:827:20)
+    at AbortSignal.dis
+patchEvent (node:inter
+nal/event_target:762:2
+6)
+    at runAbort (node:
+internal/abort_control
+ler:486:10)
+    at abortSignal (no
+de:internal/abort_cont
+roller:457:3)
+    at AbortController
+.abort (node:internal/
+abort_controller:505:5
+)
+    at Timeout.<anonym
+ous> (C:\Users\kasap\.
+gemini\antigravity\scr
+atch\discord-music-bot
+\node_modules\discord-
+voip\dist\index.js:219
+8:39)
+    at listOnTimeout (
+node:internal/timers:5
+88:17)
+    at process.process
+Timers (node:internal/
+timers:523:7) {
+  code: 'ABORT_ERR',
+  [cause]: DOMExceptio
+n [AbortError]: This o
+peration was aborted
+      at new DOMExcept
+ion (node:internal/per
+_context/domexception:
+53:5)
+      at AbortControll
+er.abort (node:interna
+l/abort_controller:504
+:18)
+      at Timeout.<anon
+ymous> (C:\Users\kasap
+\.gemini\antigravity\s
+cratch\discord-music-b
+ot\node_modules\discor
+d-voip\dist\index.js:2
+198:39)
+      at listOnTimeout
+ (node:internal/timers
+:588:17)
+      at process.proce
+ssTimers (node:interna
+l/timers:523:7)
+}

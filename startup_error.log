@@ -1,0 +1,72 @@
+﻿
+> discord-music-bot@1.0.0 start
+> node src/index.js
+
+node.exe : node:intern
+al/modules/esm/load:20
+9
+At C:\Program Files\no
+dejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_C
+LI_JS $args
++   ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (node:inter   
+ nal/modules/esm/l    
+oad:209:String) [    ]
+, RemoteExceptio    n
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+    throw new ERR_UNSU
+PPORTED_ESM_URL_SCHEME
+(parsed, schemes);
+          ^
+
+Error [ERR_UNSUPPORTED
+_ESM_URL_SCHEME]: Only
+ URLs with a scheme in
+: file, data, and node
+ are supported by the 
+default ESM loader. On
+ Windows, absolute pat
+hs must be valid file:
+// URLs. Received prot
+ocol 'c:'
+    at throwIfUnsuppor
+tedURLScheme (node:int
+ernal/modules/esm/load
+:209:11)
+    at defaultLoad (no
+de:internal/modules/es
+m/load:107:3)
+    at ModuleLoader.lo
+ad (node:internal/modu
+les/esm/loader:800:12)
+    at ModuleLoader.lo
+adAndTranslate (node:i
+nternal/modules/esm/lo
+ader:580:43)
+    at #createModuleJo
+b (node:internal/modul
+es/esm/loader:604:36)
+    at #getJobFromReso
+lveResult (node:intern
+al/modules/esm/loader:
+338:34)
+    at ModuleLoader.ge
+tModuleJobForImport (n
+ode:internal/modules/e
+sm/loader:306:41)
+    at async onImport.
+tracePromise.__proto__
+ (node:internal/module
+s/esm/loader:643:25) {
+  code: 'ERR_UNSUPPORT
+ED_ESM_URL_SCHEME'
+}
+
+Node.js v22.16.0

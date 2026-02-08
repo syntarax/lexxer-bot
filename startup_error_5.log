@@ -1,0 +1,84 @@
+﻿
+> discord-music-bot@1.0.0 start
+> node src/index.js
+
+node.exe : node:intern
+al/modules/cjs/loader:
+1437
+At C:\Program Files\no
+dejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_C
+LI_JS $args
++   ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (node:inter   
+ nal/modules/cjs/l    
+oader:1437:String    )
+ [], RemoteExcep    ti
+on
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+  const err = new Erro
+r(`Cannot find module 
+'${request}'`);
+              ^
+
+Error: Cannot find mod
+ule 'C:\Users\kasap\.g
+emini\antigravity\scra
+tch\discord-music-bot\
+node_modules\discord.j
+s\node_modules\discord
+-api-types\v10.js'
+    at createEsmNotFou
+ndErr (node:internal/m
+odules/cjs/loader:1437
+:15)
+    at finalizeEsmReso
+lution (node:internal/
+modules/cjs/loader:142
+6:15)
+    at resolveExports 
+(node:internal/modules
+/cjs/loader:657:14)
+    at Function._findP
+ath (node:internal/mod
+ules/cjs/loader:749:31
+)
+    at Function._resol
+veFilename (node:inter
+nal/modules/cjs/loader
+:1387:27)
+    at defaultResolveI
+mpl (node:internal/mod
+ules/cjs/loader:1057:1
+9)
+    at resolveForCJSWi
+thHooks (node:internal
+/modules/cjs/loader:10
+62:22)
+    at Function._load 
+(node:internal/modules
+/cjs/loader:1211:37)
+    at TracingChannel.
+traceSync (node:diagno
+stics_channel:322:14)
+    at wrapModuleLoad 
+(node:internal/modules
+/cjs/loader:235:24) {
+  code: 'MODULE_NOT_FO
+UND',
+  path: 'C:\\Users\\ka
+sap\\.gemini\\antigrav
+ity\\scratch\\discord-
+music-bot\\node_module
+s\\discord.js\\node_mo
+dules\\discord-api-typ
+es'
+}
+
+Node.js v22.16.0

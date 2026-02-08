@@ -1,10 +1,13 @@
-import { Client, GatewayIntentBits, Collection } from 'discord.js';
-import { Player } from 'discord-player';
-import { DefaultExtractors } from '@discord-player/extractor';
-import dotenv from 'dotenv';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Player } = require('discord-player');
+const { DefaultExtractors } = require('@discord-player/extractor');
+const dotenv = require('dotenv');
+const fs = require('fs');
+const path = require('path');
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,74 +23,74 @@ const client = new Client({
     ],
 });
 
-// discord-player setup
-client.player = new Player(client, {
-    leaveOnEmpty: false,
-    leaveOnEmptyCooldown: 0,
-    leaveOnEnd: false,
-    leaveOnEndCooldown: 0
+// Minimal Player setup
+const player = new Player(client, {
+    ytdlOptions: {
+        quality: 'highestaudio',
+        highWaterMark: 1 << 25
+    },
+    skipFFmpeg: false // Ensure FFmpeg is used
 });
 
 // Load default extractors
-await client.player.extractors.loadMulti(DefaultExtractors);
+// In v6 commonjs, this is synchronous or promise based? 
+// DefaultExtractors is array of extractors
+// player.extractors.loadMulti is async
+// Load extractors
+async function loadExtractors() {
+    try {
+        if (player.extractors && typeof player.extractors.loadDefault === 'function') {
+            await player.extractors.loadDefault((ext) => !['YouTubeExtractor'].includes(ext)); // Optional filter
+            console.log('✅ Default extractors loaded via loadDefault');
+        } else if (player.extractors && typeof player.extractors.register === 'function') {
+            // v6 compatible registration
+            await player.extractors.register(DefaultExtractors);
+            console.log('✅ Extractors registered');
+        } else {
+            console.warn('⚠️ Could not load extractors: player.extractors not found or incompatible.');
+        }
+    } catch (e) {
+        console.error('❌ Extractor loading failed:', e);
+    }
+}
+loadExtractors();
 
 // Commands collection
 client.commands = new Collection();
+client.player = player; // Access player from client
 
 // Load commands
 const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+if (fs.existsSync(commandsPath)) {
+    const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-for (const file of commandFiles) {
-    const filePath = path.join(commandsPath, file);
-    import(filePath).then(module => {
-        const command = module.default;
-        if (command.name) {
-            client.commands.set(command.name, command);
-            console.log(`✅ Komut yüklendi: ${command.name}`);
-        }
-    });
+    for (const file of commandFiles) {
+        const filePath = path.join(commandsPath, file);
+        import(pathToFileURL(filePath).href).then(module => {
+            const command = module.default;
+            if (command.name) {
+                client.commands.set(command.name, command);
+                console.log(`✅ Komut yüklendi: ${command.name}`);
+            }
+        });
+    }
 }
 
-// Player events
-client.player.events.on('playerStart', (queue, track) => {
-    console.log(`[Player] Started playing: ${track.title}`);
-    queue.metadata.channel.send(`🎵 Çalıyor: **${track.title}** - \`${track.duration}\``);
+// Basic Player Events
+player.events.on('playerStart', (queue, track) => {
+    queue.metadata.channel.send(`🎵 **Playing:** ${track.title}`);
 });
 
-client.player.events.on('audioTrackAdd', (queue, track) => {
-    queue.metadata.channel.send(`✅ Sıraya eklendi: **${track.title}**`);
+player.events.on('error', (queue, error) => {
+    console.error(`[Player Error] ${error.message}`);
 });
 
-client.player.events.on('disconnect', queue => {
-    console.log('[Player] Disconnected from voice channel');
-    queue.metadata.channel.send('👋 Ses kanalından ayrıldım!');
+player.events.on('playerError', (queue, error) => {
+    console.error(`[Playback Error] ${error.message}`);
 });
 
-client.player.events.on('emptyChannel', queue => {
-    console.log('[Player] Empty channel - leaving');
-    queue.metadata.channel.send('📭 Kanal boş, ayrılıyorum!');
-});
-
-client.player.events.on('emptyQueue', queue => {
-    console.log('[Player] Queue is empty');
-    queue.metadata.channel.send('📜 Sıra bitti!');
-});
-
-client.player.events.on('error', (queue, error) => {
-    console.error('[Player] Error:', error);
-    queue.metadata.channel.send(`❌ Player hatası: ${error.message}`);
-});
-
-client.player.events.on('playerError', (queue, error) => {
-    console.error('[Player] Playback error:', error);
-    queue.metadata.channel.send(`❌ Çalma hatası: ${error.message}`);
-});
-
-// Bot events
 client.once('clientReady', () => {
-    console.log(`✅ ${client.user.tag} aktif!`);
-    console.log(`📊 ${client.guilds.cache.size} sunucuda aktif`);
+    console.log(`✅ ${client.user.tag} hazır!`);
 });
 
 client.on('messageCreate', async message => {
@@ -103,8 +106,8 @@ client.on('messageCreate', async message => {
     try {
         await command.execute(message, args, client);
     } catch (error) {
-        console.error(`Komut hatası [${commandName}]:`, error);
-        message.reply('❌ Komut çalıştırılırken bir hata oluştu!');
+        console.error(error);
+        message.reply('❌ Bir hata oluştu!');
     }
 });
 

@@ -1,0 +1,418 @@
+﻿
+> discord-music-bot@1.0.0 start
+> node src/index.js
+
+Ô£à Komut y├╝klendi: yard─▒m
+Ô£à Komut y├╝klendi: queue
+Ô£à Komut y├╝klendi: pause
+Ô£à Komut y├╝klendi: play
+Ô£à Komut y├╝klendi: resume
+Ô£à Komut y├╝klendi: skip
+Ô£à Komut y├╝klendi: stop
+Ô£à Lexxer#8298 aktif!
+­şôè 1 sunucuda aktif
+[Player Debug] GuildQueue initialized for guild Lexxer (ID: 709779417274253313)
+[Player Debug] Connecting to voice channel d├╝zg├╝n kanal (ID: 1467331618137178194)
+[Player Debug] Received play request from guild Lexxer (ID: 709779417274253313)
+[Player Debug] Requested option requires to play the track, initializing...
+[Player Debug] Initiating stream extraction process...
+[Player Debug] Executing onBeforeCreateStream hook (QueryType: soundcloudTrack)...
+[Player Debug] Failed to get stream from onBeforeCreateStream!
+[Player Debug] Attempting to extract stream for Track { title: Ala Djalek Nahreg R4, url: https://soundcloud.com/mounirahamoudi/ala-djalek-nahreg-r4 } using registered extractors
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] Stream extraction was successful for Track { title: Ala Djalek Nahreg R4, url: https://soundcloud.com/mounirahamoudi/ala-djalek-nahreg-r4 } (Extractor: com.discord-player.soundcloudextractor)
+[Player Debug] Waiting for willPlayTrack event to resolve...
+[Player Debug] Preparing final stream config: {
+  "dispatcherConfig": {
+    "disableBiquad": false,
+    "disableEqualizer": false,
+    "disableVolume": false,
+    "disableFilters": false,
+    "disableResampler": true,
+    "sampleRate": 48000,
+    "eq": [],
+    "defaultFilters": [],
+    "volume": 100,
+    "data": {
+      "id": "1470081380430909441",
+      "title": "Ala Djalek Nahreg R4",
+      "description": "Ala Djalek Nahreg R4 by Dawi Ya",
+      "author": "Dawi Ya",
+      "url": "https://soundcloud.com/mounirahamoudi/ala-djalek-nahreg-r4",
+      "thumbnail": "",
+      "duration": "03:31",
+      "durationMS": 211000,
+      "views": 343,
+      "requestedBy": "383925783451926539",
+      "playlist": null
+    },
+    "type": "raw",
+    "skipFFmpeg": true
+  },
+  "playerConfig": {
+    "queue": false,
+    "transitionMode": false,
+    "seek": 0
+  }
+}
+[Player Debug] Initiating DSP filters pipeline...
+[Player Debug] Executing onAfterCreateStream hook...
+[Player Debug] Preparing AudioResource...
+[Player Debug] Initializing audio player...
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] [WS] << {"op":2,"d":{"streams":[{"type":"video","ssrc":238750,"rtx_ssrc":238751,"rid":"","quality":0,"active":false}],"ssrc":238749,"port":19297,"modes":["aead_aes256_gcm_rtpsize","aead_xchacha20_poly1305_rtpsize"],"ip":"104.29.142.99","experiments":["fixed_keyframe_interval"]}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238749}}
+[Player Debug] [NW] [WS] << {"op":11,"d":{"user_ids":["383925783451926539"]}}
+[Player Debug] [NW] [WS] << {"op":18,"d":{"user_id":"383925783451926539","flags":2}}
+[Player Debug] [NW] [WS] << {"op":20,"d":{"user_id":"383925783451926539","platform":0}}
+[Player Debug] [NW] state change:
+from {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238749}}
+to {"code":6,"ws":false,"udp":false}
+node.exe : [Player] Error: 
+Error: Cannot perform IP di
+scovery - socket closed
+At C:\Program Files\nodejs\
+npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS
+ $args
++   ~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~
+    + CategoryInfo         
+     : NotSpecified: ([Pl  
+  ayer] Error:...- socke   
+ t closed:String) [], R    
+emoteException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 
+    at Socket.<anonymous> (
+C:\Users\kasap\.gemini\anti
+gravity\scratch\discord-mus
+ic-bot\node_modules\discord
+-voip\dist\index.js:377:22)
+    at Object.onceWrapper (
+node:events:632:28)
+    at Socket.emit (node:ev
+ents:530:35)
+    at socketCloseNT (node:
+dgram:808:8)
+    at process.processTicks
+AndRejections (node:interna
+l/process/task_queues:89:21
+)
+[Player] Error: Error: Cann
+ot perform IP discovery - s
+ocket closed
+    at Socket.<anonymous> (
+C:\Users\kasap\.gemini\anti
+gravity\scratch\discord-mus
+ic-bot\node_modules\discord
+-voip\dist\index.js:377:22)
+    at Object.onceWrapper (
+node:events:632:28)
+    at Socket.emit (node:ev
+ents:530:35)
+    at socketCloseNT (node:
+dgram:808:8)
+    at process.processTicks
+AndRejections (node:interna
+l/process/task_queues:89:21
+)
+[Player Debug] Dispatching audio...
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] [WS] << {"op":2,"d":{"streams":[{"type":"video","ssrc":238759,"rtx_ssrc":238760,"rid":"","quality":0,"active":false}],"ssrc":238758,"port":19297,"modes":["aead_aes256_gcm_rtpsize","aead_xchacha20_poly1305_rtpsize"],"ip":"104.29.142.99","experiments":["fixed_keyframe_interval"]}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238758}}
+[Player Debug] [NW] [WS] << {"op":11,"d":{"user_ids":["383925783451926539"]}}
+[Player Debug] [NW] [WS] << {"op":18,"d":{"user_id":"383925783451926539","flags":2}}
+[Player Debug] [NW] [WS] << {"op":20,"d":{"user_id":"383925783451926539","platform":0}}
+[Player Debug] [NW] state change:
+from {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238758}}
+to {"code":6,"ws":false,"udp":false}
+[Player] Error: Error: Cann
+ot perform IP discovery - s
+ocket closed
+    at Socket.<anonymous> (
+C:\Users\kasap\.gemini\anti
+gravity\scratch\discord-mus
+ic-bot\node_modules\discord
+-voip\dist\index.js:377:22)
+    at Object.onceWrapper (
+node:events:632:28)
+    at Socket.emit (node:ev
+ents:530:35)
+    at socketCloseNT (node:
+dgram:808:8)
+    at process.processTicks
+AndRejections (node:interna
+l/process/task_queues:89:21
+)
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] [WS] << {"op":2,"d":{"streams":[{"type":"video","ssrc":238762,"rtx_ssrc":238763,"rid":"","quality":0,"active":false}],"ssrc":238761,"port":19297,"modes":["aead_aes256_gcm_rtpsize","aead_xchacha20_poly1305_rtpsize"],"ip":"104.29.142.99","experiments":["fixed_keyframe_interval"]}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238761}}
+[Player Debug] [NW] [WS] << {"op":11,"d":{"user_ids":["383925783451926539"]}}
+[Player Debug] [NW] [WS] << {"op":18,"d":{"user_id":"383925783451926539","flags":2}}
+[Player Debug] [NW] [WS] << {"op":20,"d":{"user_id":"383925783451926539","platform":0}}
+[Player Debug] [NW] state change:
+from {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238761}}
+to {"code":6,"ws":false,"udp":false}
+[Player] Error: Error: Cann
+ot perform IP discovery - s
+ocket closed
+    at Socket.<anonymous> (
+C:\Users\kasap\.gemini\anti
+gravity\scratch\discord-mus
+ic-bot\node_modules\discord
+-voip\dist\index.js:377:22)
+    at Object.onceWrapper (
+node:events:632:28)
+    at Socket.emit (node:ev
+ents:530:35)
+    at socketCloseNT (node:
+dgram:808:8)
+    at process.processTicks
+AndRejections (node:interna
+l/process/task_queues:89:21
+)
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] [WS] << {"op":2,"d":{"streams":[{"type":"video","ssrc":238765,"rtx_ssrc":238766,"rid":"","quality":0,"active":false}],"ssrc":238764,"port":19297,"modes":["aead_aes256_gcm_rtpsize","aead_xchacha20_poly1305_rtpsize"],"ip":"104.29.142.99","experiments":["fixed_keyframe_interval"]}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238764}}
+[Player Debug] [NW] [WS] << {"op":11,"d":{"user_ids":["383925783451926539"]}}
+[Player Debug] [NW] [WS] << {"op":18,"d":{"user_id":"383925783451926539","flags":2}}
+[Player Debug] [NW] [WS] << {"op":20,"d":{"user_id":"383925783451926539","platform":0}}
+[Player Debug] [NW] state change:
+from {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238764}}
+to {"code":6,"ws":false,"udp":false}
+[Player] Error: Error: Cann
+ot perform IP discovery - s
+ocket closed
+    at Socket.<anonymous> (
+C:\Users\kasap\.gemini\anti
+gravity\scratch\discord-mus
+ic-bot\node_modules\discord
+-voip\dist\index.js:377:22)
+    at Object.onceWrapper (
+node:events:632:28)
+    at Socket.emit (node:ev
+ents:530:35)
+    at socketCloseNT (node:
+dgram:808:8)
+    at process.processTicks
+AndRejections (node:interna
+l/process/task_queues:89:21
+)
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] [WS] << {"op":2,"d":{"streams":[{"type":"video","ssrc":238768,"rtx_ssrc":238769,"rid":"","quality":0,"active":false}],"ssrc":238767,"port":19297,"modes":["aead_aes256_gcm_rtpsize","aead_xchacha20_poly1305_rtpsize"],"ip":"104.29.142.99","experiments":["fixed_keyframe_interval"]}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238767}}
+[Player Debug] [NW] [WS] << {"op":11,"d":{"user_ids":["383925783451926539"]}}
+[Player Debug] [NW] [WS] << {"op":18,"d":{"user_id":"383925783451926539","flags":2}}
+[Player Debug] [NW] [WS] << {"op":20,"d":{"user_id":"383925783451926539","platform":0}}
+[Player Debug] [NW] state change:
+from {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238767}}
+to {"code":6,"ws":false,"udp":false}
+[Player] Error: Error: Cann
+ot perform IP discovery - s
+ocket closed
+    at Socket.<anonymous> (
+C:\Users\kasap\.gemini\anti
+gravity\scratch\discord-mus
+ic-bot\node_modules\discord
+-voip\dist\index.js:377:22)
+    at Object.onceWrapper (
+node:events:632:28)
+    at Socket.emit (node:ev
+ents:530:35)
+    at socketCloseNT (node:
+dgram:808:8)
+    at process.processTicks
+AndRejections (node:interna
+l/process/task_queues:89:21
+)
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"12a6c76d1bf3c58a576d15cc8fe3ebd2","token":"fb1b27c301d5d4b8"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"fb1b27c301d5d4b8","sessionId":"12a6c76d1bf3c58a576d15cc8fe3ebd2","userId":"840619524419092511"},"udp":false}
+to {"code":6,"ws":false,"udp":false}

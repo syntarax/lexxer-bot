@@ -1,0 +1,100 @@
+﻿
+> discord-music-bot@1.0.0 start
+> node src/index.js
+
+Ô£à Komut y├╝klendi: yard─▒m
+Ô£à Komut y├╝klendi: play
+Ô£à Komut y├╝klendi: pause
+Ô£à Komut y├╝klendi: queue
+Ô£à Komut y├╝klendi: resume
+Ô£à Komut y├╝klendi: skip
+Ô£à Komut y├╝klendi: stop
+Ô£à Lexxer#8298 aktif!
+­şôè 1 sunucuda aktif
+[Player Debug] GuildQueue initialized for guild Lexxer (ID: 709779417274253313)
+[Player Debug] Connecting to voice channel d├╝zg├╝n kanal (ID: 1467331618137178194)
+[Player Debug] Received play request from guild Lexxer (ID: 709779417274253313)
+[Player Debug] Requested option requires to play the track, initializing...
+[Player Debug] Initiating stream extraction process...
+[Player Debug] Executing onBeforeCreateStream hook (QueryType: soundcloudTrack)...
+[Player Debug] Failed to get stream from onBeforeCreateStream!
+[Player Debug] Attempting to extract stream for Track { title: Ala Djalek Nahreg R4, url: https://soundcloud.com/mounirahamoudi/ala-djalek-nahreg-r4 } using registered extractors
+[Player Debug] Stream extraction was successful for Track { title: Ala Djalek Nahreg R4, url: https://soundcloud.com/mounirahamoudi/ala-djalek-nahreg-r4 } (Extractor: com.discord-player.soundcloudextractor)
+[Player Debug] Waiting for willPlayTrack event to resolve...
+[Player Debug] Preparing final stream config: {
+  "dispatcherConfig": {
+    "disableBiquad": false,
+    "disableEqualizer": false,
+    "disableVolume": false,
+    "disableFilters": false,
+    "disableResampler": true,
+    "sampleRate": 48000,
+    "eq": [],
+    "defaultFilters": [],
+    "volume": 100,
+    "data": {
+      "id": "1470080598746861569",
+      "title": "Ala Djalek Nahreg R4",
+      "description": "Ala Djalek Nahreg R4 by Dawi Ya",
+      "author": "Dawi Ya",
+      "url": "https://soundcloud.com/mounirahamoudi/ala-djalek-nahreg-r4",
+      "thumbnail": "",
+      "duration": "03:31",
+      "durationMS": 211000,
+      "views": 343,
+      "requestedBy": "383925783451926539",
+      "playlist": null
+    },
+    "type": "raw",
+    "skipFFmpeg": true
+  },
+  "playerConfig": {
+    "queue": false,
+    "transitionMode": false,
+    "seek": 0
+  }
+}
+[Player Debug] Initiating DSP filters pipeline...
+[Player Debug] Executing onAfterCreateStream hook...
+[Player Debug] Preparing AudioResource...
+[Player Debug] Initializing audio player...
+[Player Debug] [NW] [WS] >> {"op":0,"d":{"server_id":"709779417274253313","user_id":"840619524419092511","session_id":"af342937017c98702436d41a5cf57b91","token":"84f265be773abab5"}}
+[Player Debug] [NW] state change:
+from {"code":0,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"84f265be773abab5","sessionId":"af342937017c98702436d41a5cf57b91","userId":"840619524419092511"},"udp":false}
+to {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"84f265be773abab5","sessionId":"af342937017c98702436d41a5cf57b91","userId":"840619524419092511"},"udp":false}
+[Player Debug] [NW] [WS] << {"op":8,"d":{"v":4,"heartbeat_interval":13750.0}}
+[Player Debug] [NW] [WS] << {"op":2,"d":{"streams":[{"type":"video","ssrc":238638,"rtx_ssrc":238639,"rid":"","quality":0,"active":false}],"ssrc":238637,"port":19297,"modes":["aead_aes256_gcm_rtpsize","aead_xchacha20_poly1305_rtpsize"],"ip":"104.29.142.99","experiments":["fixed_keyframe_interval"]}}
+[Player Debug] [NW] state change:
+from {"code":1,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"84f265be773abab5","sessionId":"af342937017c98702436d41a5cf57b91","userId":"840619524419092511"},"udp":false}
+to {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"84f265be773abab5","sessionId":"af342937017c98702436d41a5cf57b91","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238637}}
+[Player Debug] [NW] [WS] << {"op":11,"d":{"user_ids":["383925783451926539"]}}
+[Player Debug] [NW] [WS] << {"op":18,"d":{"user_id":"383925783451926539","flags":2}}
+[Player Debug] [NW] [WS] << {"op":20,"d":{"user_id":"383925783451926539","platform":0}}
+[Player Debug] [NW] [WS] >> {"op":1,"d":{"protocol":"udp","data":{"address":"88.242.48.226","port":64126,"mode":"aead_aes256_gcm_rtpsize"}}}
+[Player Debug] [NW] state change:
+from {"code":2,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"84f265be773abab5","sessionId":"af342937017c98702436d41a5cf57b91","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238637}}
+to {"code":3,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"84f265be773abab5","sessionId":"af342937017c98702436d41a5cf57b91","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238637}}
+[Player Debug] [NW] [WS] << {"op":4,"d":{"video_codec":"H264","secure_frames_version":0,"secret_key":[33,206,122,138,32,169,171,106,2,240,6,11,96,169,151,119,234,117,190,67,4,28,132,79,55,105,207,32,36,200,110,226],"mode":"aead_aes256_gcm_rtpsize","media_session_id":"49010a8dcbd0af3deb238a3414151859","dave_protocol_version":0,"audio_codec":"opus"}}
+[Player Debug] [NW] state change:
+from {"code":3,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"84f265be773abab5","sessionId":"af342937017c98702436d41a5cf57b91","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238637}}
+to {"code":4,"ws":true,"connectionOptions":{"endpoint":"c-otp01-cec029c2.discord.media:443","serverId":"709779417274253313","token":"84f265be773abab5","sessionId":"af342937017c98702436d41a5cf57b91","userId":"840619524419092511"},"udp":true,"connectionData":{"ssrc":238637,"encryptionMode":"aead_aes256_gcm_rtpsize","secretKey":{"0":33,"1":206,"2":122,"3":138,"4":32,"5":169,"6":171,"7":106,"8":2,"9":240,"10":6,"11":11,"12":96,"13":169,"14":151,"15":119,"16":234,"17":117,"18":190,"19":67,"20":4,"21":28,"22":132,"23":79,"24":55,"25":105,"26":207,"27":32,"28":36,"29":200,"30":110,"31":226},"sequence":15327,"timestamp":1774685969,"nonce":0,"nonceBuffer":{"type":"Buffer","data":[0,0,0,0,0,0,0,0,0,0,0,0]},"speaking":false,"packetsPlayed":0}}
+[Player Debug] state change:
+from {"status":"idle","resource":false,"stepTimeout":false}
+to {"status":"buffering","resource":true,"stepTimeout":false}
+[Player Debug] Dispatching audio...
+[Player Debug] Player triggered for Track {"title":"Ala Djalek Nahreg R4","reason":"normal"}
+[Player] Started playing: Ala Djalek Nahreg R4
+[Player Debug] state change:
+from {"status":"buffering","resource":true,"stepTimeout":false}
+to {"status":"playing","missedFrames":0,"playbackDuration":0,"resource":true,"stepTimeout":false}
+[Player Debug] [NW] [WS] >> {"op":5,"d":{"speaking":1,"delay":0,"ssrc":238637}}
+[Player Debug] [NW] [WS] >> {"op":3,"d":1770564941970}
+[Player Debug] [NW] [WS] << {"op":6,"d":1770564941970}
+[Player Debug] [NW] [WS] >> {"op":3,"d":1770564955734}
+[Player Debug] [NW] [WS] << {"op":6,"d":1770564955734}
+[Player Debug] [NW] [WS] >> {"op":5,"d":{"speaking":0,"delay":0,"ssrc":238637}}
+[Player Debug] Track {"title":"Ala Djalek Nahreg R4","isTransitionMode":true} was marked as finished
+[Player Debug] state change:
+from {"status":"playing","missedFrames":0,"playbackDuration":28200,"resource":true,"stepTimeout":false}
+to {"status":"idle","resource":false,"stepTimeout":false}
+[Player] Disconnected from voice channel

@@ -1,0 +1,67 @@
+﻿
+> discord-music-bot@1.0.0 start
+> node src/index.js
+
+node.exe : file:///C:/
+Users/kasap/.gemini/an
+tigravity/scratch/disc
+ord-music-bot/src/inde
+x.js:3
+At C:\Program Files\no
+dejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_C
+LI_JS $args
++   ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (file:///C:   
+ /User.../src/inde    
+x.js:3:String) []    ,
+ RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+import { DefaultExtrac
+tors } from '@discord-
+player/extractor';
+         ^^^^^^^^^^^^^
+^^^^
+SyntaxError: Named exp
+ort 'DefaultExtractors
+' not found. The reque
+sted module '@discord-
+player/extractor' is a
+ CommonJS module, whic
+h may not support all 
+module.exports as name
+d exports.
+CommonJS modules can a
+lways be imported via 
+the default export, fo
+r example using:
+
+import pkg from '@disc
+ord-player/extractor';
+const { DefaultExtract
+ors } = pkg;
+
+    at ModuleJob._inst
+antiate (node:internal
+/modules/esm/module_jo
+b:182:21)
+    at async ModuleJob
+.run (node:internal/mo
+dules/esm/module_job:2
+66:5)
+    at async onImport.
+tracePromise.__proto__
+ (node:internal/module
+s/esm/loader:644:26)
+    at async asyncRunE
+ntryPointWithESMLoader
+ (node:internal/module
+s/run_main:117:5)
+
+Node.js v22.16.0

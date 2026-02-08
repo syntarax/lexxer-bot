@@ -1,0 +1,74 @@
+﻿
+> discord-music-bot@1.0.0 start
+> node src/index.js
+
+node.exe : node:intern
+al/modules/package_jso
+n_reader:256
+At C:\Program Files\no
+dejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_C
+LI_JS $args
++   ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (node:inter   
+ nal/m...json_read    
+er:256:String) []    ,
+ RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+  throw new ERR_MODULE
+_NOT_FOUND(packageName
+, fileURLToPath(base),
+ null);
+        ^
+
+Error [ERR_MODULE_NOT_
+FOUND]: Cannot find pa
+ckage 'discord-player'
+ imported from C:\User
+s\kasap\.gemini\antigr
+avity\scratch\discord-
+music-bot\src\index.js
+    at Object.getPacka
+geJSONURL (node:intern
+al/modules/package_jso
+n_reader:256:9)
+    at packageResolve 
+(node:internal/modules
+/esm/resolve:768:81)
+    at moduleResolve (
+node:internal/modules/
+esm/resolve:854:18)
+    at defaultResolve 
+(node:internal/modules
+/esm/resolve:984:11)
+    at ModuleLoader.de
+faultResolve (node:int
+ernal/modules/esm/load
+er:780:12)
+    at #cachedDefaultR
+esolve (node:internal/
+modules/esm/loader:704
+:25)
+    at ModuleLoader.re
+solve (node:internal/m
+odules/esm/loader:687:
+38)
+    at ModuleLoader.ge
+tModuleJobForImport (n
+ode:internal/modules/e
+sm/loader:305:38)
+    at ModuleJob._link
+ (node:internal/module
+s/esm/module_job:137:4
+9) {
+  code: 'ERR_MODULE_NO
+T_FOUND'
+}
+
+Node.js v22.16.0

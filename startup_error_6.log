@@ -1,0 +1,51 @@
+﻿
+> discord-music-bot@1.0.0 start
+> node src/index.js
+
+node.exe : file:///C:/
+Users/kasap/.gemini/an
+tigravity/scratch/disc
+ord-music-bot/src/inde
+x.js:39
+At C:\Program Files\no
+dejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_C
+LI_JS $args
++   ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (file:///C:   
+ /User...src/index    
+.js:39:String) []    ,
+ RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+player.extractors.load
+Multi(DefaultExtractor
+s).then(() => {
+                  ^
+
+TypeError: player.extr
+actors.loadMulti is no
+t a function
+    at file:///C:/User
+s/kasap/.gemini/antigr
+avity/scratch/discord-
+music-bot/src/index.js
+:39:19
+    at ModuleJob.run (
+node:internal/modules/
+esm/module_job:274:25)
+    at async onImport.
+tracePromise.__proto__
+ (node:internal/module
+s/esm/loader:644:26)
+    at async asyncRunE
+ntryPointWithESMLoader
+ (node:internal/module
+s/run_main:117:5)
+
+Node.js v22.16.0
