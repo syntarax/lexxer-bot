@@ -12,10 +12,26 @@ import play from 'play-dl';
 // Global player map
 const players = new Map();
 
+import fs from 'fs';
+
 // Cookie Ayarları
-if (process.env.YOUTUBE_COOKIES) {
+let cookies = process.env.YOUTUBE_COOKIES;
+
+// Eğer env yoksa dosyadan oku
+if (!cookies) {
     try {
-        let cookies = process.env.YOUTUBE_COOKIES.trim();
+        if (fs.existsSync('./cookies.txt')) {
+            cookies = fs.readFileSync('./cookies.txt', 'utf-8');
+            console.log('✅ Cookie dosyasından okundu.');
+        }
+    } catch (e) {
+        console.warn('⚠️ Cookie dosyası okunamadı:', e);
+    }
+}
+
+if (cookies) {
+    try {
+        cookies = cookies.trim();
         // JSON -> String
         if (cookies.startsWith('[') || cookies.startsWith('{')) {
             try {
