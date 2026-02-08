@@ -8,143 +8,82 @@ import {
     VoiceConnectionStatus
 } from '@discordjs/voice';
 import play from 'play-dl';
+import fs from 'fs';
 
 // Global player map
 const players = new Map();
 
-import fs from 'fs';
-
-// Cookie Ayarları
-let cookies = process.env.YOUTUBE_COOKIES;
-
-// Eğer env yoksa dosyadan oku
-if (!cookies) {
+// VDS için basit cookie kontrolü (Varsa okur, yoksa zorlamaz)
+if (fs.existsSync('./cookies.txt')) {
     try {
-        if (fs.existsSync('./cookies.txt')) {
-            cookies = fs.readFileSync('./cookies.txt', 'utf-8');
-            console.log('✅ Cookie dosyasından okundu.');
-        }
-    } catch (e) {
-        console.warn('⚠️ Cookie dosyası okunamadı:', e);
-    }
+        const cookies = fs.readFileSync('./cookies.txt', 'utf-8');
+        play.setToken({ youtube: { cookie: cookies } });
+        console.log('✅ Cookie bulundu ve yüklendi (Ama zorunlu değil).');
+    } catch (e) { }
 }
-
-if (cookies) {
-    try {
-        cookies = cookies.trim();
-        // JSON -> String
-        if (cookies.startsWith('[') || cookies.startsWith('{')) {
-            try {
-                const cookieArray = JSON.parse(cookies);
-                if (Array.isArray(cookieArray)) {
-                    cookies = cookieArray.map(c => `${c.name}=${c.value}`).join('; ');
-                }
-            } catch (e) {
-                console.warn('⚠️ Cookie JSON parse hatası.');
-            }
-        } else if (cookies.includes('.youtube.com') || cookies.includes('\t')) {
-            try {
-                const lines = cookies.split('\n');
-                const parsedCookies = [];
-                for (const line of lines) {
-                    const parts = line.split('\t');
-                    if (parts.length >= 7) {
-                        parsedCookies.push(`${parts[5]}=${parts[6].trim()}`);
-                    }
-                }
-                if (parsedCookies.length > 0) cookies = parsedCookies.join('; ');
-            } catch (e) { }
-        }
-
-        play.setToken({
-            youtube: { cookie: cookies }
-        });
-        console.log(`✅ YouTube token yapılandırıldı.`);
-    } catch (error) {
-        console.error('❌ Token err:', error);
-    }
-}
-
-play.getFreeClientID().then((clientID) => {
-    play.setToken({
-        soundcloud: { client_id: clientID }
-    })
-});
 
 export default {
     name: 'play',
-    description: 'Müzik çalar (Garantili Mod)',
+    description: 'Müzik çalar (Saf YouTube Modu)',
     async execute(message, args, client) {
         const voiceChannel = message.member.voice.channel;
         if (!voiceChannel) return message.reply('❌ Ses kanalına katılmalısın!');
-        if (!args.length) return message.reply('❌ Şarkı adı gir.');
+        if (!args.length) return message.reply('❌ Link veya isim gir.');
 
         const query = args.join(' ');
         const infoMessage = await message.channel.send(`🔍 Aranıyor: **${query}**`);
 
         try {
-            await this.playYouTube(message, voiceChannel, query, infoMessage);
-        } catch (ytError) {
-            console.error("YouTube Error:", ytError);
+            let url = query;
+            const validation = play.yt_validate(query);
 
-            // HER TÜRLÜ HATADA SOUNDCLOUD DENENİR (Invalid URL, Sign In, 429 vs.)
-            await infoMessage.edit(`⚠️ YouTube kaynağında sorun var (${ytError.message}). **SoundCloud** üzerinden deneniyor...`);
-
-            try {
-                await this.playSoundCloud(message, voiceChannel, query, infoMessage);
-            } catch (scError) {
-                console.error("SC Error:", scError);
-                await infoMessage.edit(`❌ Maalesef bu şarkı iki kaynakta da bulunamadı veya oynatılamıyor.`);
+            // Arama veya Link Kontrolü
+            if (validation === 'search' || !query.startsWith('http')) {
+                const results = await play.search(query, { limit: 1, source: { youtube: "video" } });
+                if (!results.length) return infoMessage.edit('❌ Sonuç yok.');
+                url = results[0].url;
             }
-        }
-    },
 
-    async playYouTube(message, voiceChannel, query, infoMessage) {
-        let url = query;
-        const validation = play.yt_validate(query);
+            console.log("Bulunan URL:", url);
 
-        if (validation === 'search' || !query.startsWith('http')) {
-            const results = await play.search(query, { limit: 1, source: { youtube: "video" } });
-            if (!results.length) throw new Error("Sonuç yok");
-            url = results[0].url;
-        }
+            // Stream (Direkt YouTube)
+            // discordPlayerCompatibility: false (Bazı sunucularda false daha iyidir)
+            const stream = await play.stream(url);
 
-        const yt_info = await play.video_info(url);
-        const stream = await play.stream_from_info(yt_info, { quality: 2 });
-
-        this.startStream(message, voiceChannel, stream, yt_info.video_details.title, url, infoMessage, "YouTube");
-    },
-
-    async playSoundCloud(message, voiceChannel, query, infoMessage) {
-        const results = await play.search(query, { limit: 1, source: { soundcloud: "tracks" } });
-        if (!results.length) throw new Error("SC Sonuç yok");
-
-        const url = results[0].url;
-        const stream = await play.stream(url);
-
-        this.startStream(message, voiceChannel, stream, results[0].name, url, infoMessage, "SoundCloud");
-    },
-
-    startStream(message, voiceChannel, stream, title, url, infoMessage, source) {
-        const connection = joinVoiceChannel({
-            channelId: voiceChannel.id,
-            guildId: voiceChannel.guild.id,
-            adapterCreator: voiceChannel.guild.voiceAdapterCreator,
-        });
-
-        let player = players.get(message.guild.id);
-        if (!player) {
-            player = createAudioPlayer({
-                behaviors: { noSubscriber: NoSubscriberBehavior.Play }
+            const connection = joinVoiceChannel({
+                channelId: voiceChannel.id,
+                guildId: voiceChannel.guild.id,
+                adapterCreator: voiceChannel.guild.voiceAdapterCreator,
             });
-            players.set(message.guild.id, player);
-            connection.on(VoiceConnectionStatus.Disconnected, () => players.delete(message.guild.id));
+
+            let player = players.get(message.guild.id);
+            if (!player) {
+                player = createAudioPlayer({
+                    behaviors: { noSubscriber: NoSubscriberBehavior.Play }
+                });
+                players.set(message.guild.id, player);
+
+                connection.on(VoiceConnectionStatus.Disconnected, () => {
+                    players.delete(message.guild.id);
+                    try { connection.destroy(); } catch (e) { }
+                });
+
+                player.on('error', error => {
+                    console.error('Player Error:', error);
+                    // Hata mesajı atmıyoruz, kullanıcı istemiyor.
+                });
+            }
+
+            connection.subscribe(player);
+            const resource = createAudioResource(stream.stream, { inputType: stream.type });
+            player.play(resource);
+
+            infoMessage.edit(`🎵 Çalıyor: **${url}**`);
+
+        } catch (error) {
+            console.error("Play Error:", error);
+            // Kullanıcıya detaylı hata verelim ki görsün
+            infoMessage.edit(`❌ Hata: ${error.message}`);
         }
-
-        connection.subscribe(player);
-        const resource = createAudioResource(stream.stream, { inputType: stream.type });
-        player.play(resource);
-
-        infoMessage.edit(`🎵 Çalıyor (${source}): **${title}** \n🔗 ${url}`);
-    }
+    },
 };
